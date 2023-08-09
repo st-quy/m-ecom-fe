@@ -1,11 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
+import { Suspense } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { SpinLoading } from './components/atoms/SpinLoading/SpinLoading';
+import App from './App';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Suspense fallback={<SpinLoading />}>
     <App />
-  </React.StrictMode>,
+  </Suspense>,
   document.getElementById('root')
-)
+);
