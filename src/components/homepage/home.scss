@@ -1,0 +1,55 @@
+select{
+    padding: 4px 10px;
+    border-radius: 3px;
+}
+#searchInput{
+    padding: 3px 10px;
+    border-radius: 3px;  
+}
+#search-btn{
+    padding: 3px 10px;
+    border-radius: 3px;  
+
+    
+}
+
+.search-label {
+    position: relative;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .search-price::before {
+    content: "Search by price: ";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    color: gray;
+    font-size: 14px;
+  }
+  .search-amountsold::before {
+    content: " Amount Sold: ";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    color: gray;
+    font-size: 14px;
+  }
+  
+  .search-categories::before {
+    content: "Categories: ";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    color: gray;
+    font-size: 14px;
+  }
+   
+  .search-name::before {
+    content: "Search by Product: ";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    color: gray;
+    font-size: 14px;
+  }

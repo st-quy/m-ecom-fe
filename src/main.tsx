@@ -1,13 +1,14 @@
 import { Suspense } from 'react';
-import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { SpinLoading } from './components/atoms/SpinLoading/SpinLoading';
+import React from 'react';
+import { ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
 import App from './App';
+import { SpinLoading } from './components/atoms/SpinLoading/SpinLoading';
 
-ReactDOM.render(
+const rootElement = document.getElementById('root');
+
+ReactDOM.createRoot(rootElement).render(
   <Suspense fallback={<SpinLoading />}>
     <App />
-  </Suspense>,
-  document.getElementById('root')
+    </Suspense>,
 );

@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
-import Header from './components/header'
+
+import HeaderLayout from './components/header';
+
+import Home from './components/homepage/home';
+import Slider from './slider/slider';
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     
-
-    <Header></Header>
+<>
+    <HeaderLayout></HeaderLayout>
   
+    <Home></Home>
+    </>
   )
 }
 

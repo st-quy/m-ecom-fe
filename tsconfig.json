@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["react", "react-dom"],
+    "types": ["react", "react-dom","node"],
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": false,
