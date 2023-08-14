@@ -1,0 +1,16 @@
+//SCSS for AdminPage
+@import './pages/AdminPage/bill/bill';
+@import './pages/AdminPage/product/product';
+@import './pages/AdminPage/user/user';
+
+//SCSS for  HomePage
+@import './pages/HomePage/header/header';
+@import './pages/HomePage/footer/footer';
+@import './pages/HomePage/cart/cart';
+@import './pages/HomePage/detail/detail';
+@import './pages/HomePage/home/home.scss';
+@import './pages/HomePage/service/service.scss';
+@import './pages/HomePage/login/login.scss';
+@import './pages/HomePage/register/register.scss';
+@import './component/atoms/cardproduct/cartProduct';
+@import './component/atoms/slider/slider';
