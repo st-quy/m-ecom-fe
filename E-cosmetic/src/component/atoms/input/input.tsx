@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from 'antd';
 
 const { Search } = Input;
-const onSearch = (value: string) => console.log(value);
 
-const InputComponent: React.FC = () => (
-  <Search
-    placeholder="searching by name......"
-    allowClear
-    enterButton={<span className="custom-enter-button">Search</span>} // Thêm lớp tùy chỉnh cho nút "Search"
-    size="large"
-    onSearch={onSearch}
-    className="custom-search" // Thêm lớp tùy chỉnh cho thành phần Search
-  />
-);
+interface InputComponentProps {
+  onSearch?: (value: string) => void;
+}
+
+const InputComponent: React.FC<InputComponentProps> = ({ onSearch }) => {
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    if (onSearch) {
+      onSearch(value);
+    }
+  };
+
+  return (
+    <Search
+      placeholder="searching by name......"
+      allowClear
+      enterButton={<span className="custom-enter-button">Search</span>}
+      size="large"
+      onSearch={handleSearch}
+      className="custom-search"
+    />
+  );
+};
 
 export default InputComponent;

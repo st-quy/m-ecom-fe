@@ -1,26 +1,34 @@
 import React from 'react';
 import { Select } from 'antd';
 
-const handleChange = (name: string, value: { value: string; label: React.ReactNode }) => {
+const handleChange = (name: string, value: string) => {
   console.log(name, value);
 };
 
-const SelectComponent: React.FC<{ name: string }> = ({ name }) => (
+const SelectComponent: React.FC<{ name: string; onChange: (value: string) => void }> = ({
+  name,
+  onChange,
+}) => (
   <Select
+    className="custom-select"
     labelInValue
     defaultValue={{ value: 'default', label: 'Default' }}
-    style={{ width: "100%", padding: "7px" }} // Adjusted height to 7px
-    onChange={(value) => handleChange(name, value)}
+    onChange={(selectedValue) => {
+      const value = selectedValue?.value || ''; // Lấy giá trị `value` từ đối tượng được chọn
+      handleChange(name, value);
+      onChange(value);
+    }}
     options={[
       {
-        value: 'ESC',
-        label: 'Hight to Low',
+        value: 'ASC',
+        label: 'From Low to Hight',
       },
       {
         value: 'DESC',
-        label: 'Low to Hight',
+        label: 'From Hight to Low',
       },
     ]}
+    style={{ width: '100%', height: '40px' }}
   />
 );
 
