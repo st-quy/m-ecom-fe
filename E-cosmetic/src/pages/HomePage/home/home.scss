@@ -16,6 +16,8 @@ select{
     position: relative;
     display: flex;
     gap: 5px;
+    font-weight: bold;
+
   }
   
   .search-price::before {
@@ -23,7 +25,7 @@ select{
     position: absolute;
     top: -25px;
     left: 0;
-    color: gray;
+    color: #9bce77;
     font-size: 14px;
   }
   .search-amountsold::before {
@@ -31,7 +33,7 @@ select{
     position: absolute;
     top: -25px;
     left: 0;
-    color: gray;
+    color: #9bce77;
     font-size: 14px;
   }
   
@@ -40,7 +42,7 @@ select{
     position: absolute;
     top: -25px;
     left: 0;
-    color: gray;
+    color: #9bce77;
     font-size: 14px;
   }
    
@@ -49,7 +51,7 @@ select{
     position: absolute;
     top: -25px;
     left: 0;
-    color: gray;
+    color: #9bce77;
     font-size: 14px;
   }
   .select{

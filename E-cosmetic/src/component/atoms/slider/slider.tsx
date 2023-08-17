@@ -1,19 +1,19 @@
 import React from 'react'
 import { Carousel } from 'antd'
-import image from '../../../assets/image.png'
+
 
 
 
 const Slider: React.FC = () => (
-  <Carousel autoplay  className="container">
+  <Carousel autoplay  >
     <div>
-     <img src={image} alt="Image 1" className="carousel__image" />
+     <img src="../../../../src/assets/1541.jpg" alt="Image 1" className="carousel__image" />
     </div>
     <div>
-      <img src={image} alt="Image 2" className="carousel__image" />
+    <img src="../../../../src/assets/2403.jpg" alt="Image 1" className="carousel__image" />
     </div>
     <div>
-      <img src={image} alt="Image 3" className="carousel__image" />
+    <img src="../../../../src/assets/2403.jpg" alt="Image 1" className="carousel__image" />
     </div>
   </Carousel>
 );

@@ -1,15 +1,75 @@
 .product-card {
-    border: 1px solid #7EAA92;
-    transition: border-color 0.3s ease;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  }
+  border: 1px solid #7eaa92;
+  transition: border-color 0.3s ease;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.product-card:hover {
+  border-color: #7eaa92;
+  border: 2.5px solid #7eaa92;
+}
+.product-card .productdescription {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.product-card .productname {
+  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #712828;
+  font-size: 18px;
+}
+.product-card .productprice {
+  color: #7eaa92;
+  font-size: 18px;
+}
+.productsold{
+  float:right;
+  color:rgb(114, 115, 115);
+  ;
+}
+//
+.product-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width:100%;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card:hover::before {
+  opacity: 1;
+}
+
+.product-card img {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 220px;
+
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
   
-  .product-card:hover {
-    border-color: #7EAA92;
-    border: 2.5px solid #7EAA92;
+}
+.product-card:hover .product-card-content {
+  transform: translateY(0);
+}
+i.ant-spin-dot-item {
+  background: #7eaa92 !important;
 
-    transition: border-color 0.3s ease;
-
-    transform: scale(1.1);
-
-  }
+}
+.menu-with-margin-top {
+  margin-top: 40px !important;
+} 
+.product-card p {
+  margin-bottom: -0.2em;
+}

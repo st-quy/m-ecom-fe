@@ -1,59 +1,108 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-  
-  .header {
-    background-color: rgba(129, 215, 62, 0.5);
-    height: 86px;
-    padding: 0;
-    margin: 0;
-  }
-  .heder .col{
-    margin-left: 7.5%;
-    margin-right: 7.5%;
-  }
-  
-
-.col_image__logo{
-    width: 80px;
+.header {
+  background-color: #9bce77;
+  height: 86px;
 }
-.col__cart__icon{
-    font-size: 50px;
+.header-row {
+  margin-left: 7.5%;
+  margin-right: 7.5%;
 }
-.col__login__buton{
-    display: inline-flex;
-padding: 5px 26px;
-justify-content: center;
-align-items: center;
-gap: 10px;
-border-color: orangered;
-    border-radius: 5px;
-background: #C8E4B2;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-.col__cart__text{
-    margin-top: -20px;
-    margin-left: 50px;
-}
-.col{
-    margin-top: 40px;
-}
-.col__login{
-    margin-top:30px;
-}
-.col__cart{
-    margin-top:10px;
-}
-.col__image{
-    margin-top: 10px;
+.header b {
+  font-size: 18px;
 }
 
+.col_image__logo {
+  height: 70px;
+  flex-shrink: 0;
+  border-radius: 48px;
+}
+
+.col__login__buton {
+  display: inline-flex;
+  padding: 5px 26px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-color: orangered;
+  border-radius: 5px;
+  background: #c8e4b2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.header-row h2{
+    margin-top: -45px;
+    color: white;
+    margin-left: 75px;
+}
+.col__cart__text {
+  margin-top: -40px;
+  margin-left: 50px;
+  color: white;
+  padding-bottom: 30px;
+}
+.col__cart__text:hover,
+.col__cart__text1:hover {
+  color: rgb(239, 131, 149) !important ;
+}
+.col__cart__inline {
+  margin-left: 50px;
+
+  display: flex;
+}
+
+.col__cart__text1 {
+  margin-top: -30px;
+
+  color: white;
+  padding-right: 5px;
+}
+
+.col__cart__container:hover .col__cart__text,
+.col__cart__container:hover .col__cart__text1 {
+  color: rgb(239, 131, 149) !important ;
+}
+.no-margin {
+  color: rgb(239, 131, 149);
+}
+.col__cart__text {
+  display: block;
+}
+.col {
+  margin-top: 40px;
+
+}
+.col__login {
+  margin-top: 30px;
+}
+.col__cart {
+  margin-top: 10px;
+}
+.col__image {
+  margin-top: 10px;
+}
 
 //
-.slider{
-    margin-top:40px;
-    width: 100%;
-    height: 400px;
+.slider {
+  margin-top: 40px;
+}
+.col__cart__icon {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 2px solid white;
+  padding: 8px;
+  width: 45px;
+  height: 45px; /* Điều chỉnh kích thước biểu tượng theo ý muốn */
+}
+.tags h2{
+   margin-top: 35px;
+}
+.tags-navigation{
+  display: flex;
+  gap:35px
 }
