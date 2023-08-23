@@ -5,7 +5,6 @@ import CardProduct from '~/component/atoms/cardproduct/cartProduct';
 import SelectCategories from '~/component/atoms/select/selectCategories';
 import SelectComponent from '~/component/atoms/select/selectarange';
 import InputComponent from '~/component/atoms/input/input';
-
 const Home: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [sortByPrice, setSortByPrice] = useState('');
