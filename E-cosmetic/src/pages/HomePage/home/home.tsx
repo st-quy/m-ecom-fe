@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Row } from 'antd';
-
+import Slider from '~/component/atoms/slider/slider';
 import CardProduct from '~/component/atoms/cardproduct/cartProduct';
 import SelectCategories from '~/component/atoms/select/selectCategories';
 import SelectComponent from '~/component/atoms/select/selectarange';
@@ -12,6 +12,7 @@ const Home: React.FC = () => {
   const [sortByQuantitySold, setSortByQuantitySold] = useState('');
   const [categoryId, setCategoryId] = useState<string | undefined>(undefined);
 
+  
   const handleSearch = (value: string) => {
     setSearchValue(value);
   };
@@ -29,6 +30,9 @@ const Home: React.FC = () => {
   };
 
   return (
+    <>
+    <Slider />
+
     <div className="container">
       <Row gutter={[30, 0]}>
         <Col className="col" sm={12} md={9} lg={12} xl={12}>
@@ -39,7 +43,7 @@ const Home: React.FC = () => {
           <div className="form-group">
             <label className="search-label search-price"></label>
             <SelectComponent name="sortx" onChange={handleSortChange} />
-          </div>
+            </div>
         </Col>
         <Col className="col" sm={12} md={5} lg={4} xl={4}>
           <div className="form-group">
@@ -59,8 +63,11 @@ const Home: React.FC = () => {
         sortByPrice={sortByPrice}
         sortByQuantitySold={sortByQuantitySold}
         categoryId={categoryId}
+    isDetailPage={false} 
+
       />
     </div>
+    </>
   );
 };
 

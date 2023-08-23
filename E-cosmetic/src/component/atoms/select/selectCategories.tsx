@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
 import axios from 'axios';
 
-const { Option } = Select;
 
 interface Category {
   id: string;
@@ -14,7 +13,7 @@ interface SelectCategoriesProps {
   onChange: (value: string) => void;
 }
 
-const SelectCategories: React.FC<SelectCategoriesProps> = ({ name, onChange }) => {
+const SelectCategories: React.FC<SelectCategoriesProps> = ({  onChange }) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {

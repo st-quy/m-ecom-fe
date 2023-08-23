@@ -2,7 +2,6 @@ import React from 'react'
 import { ShoppingCartOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { Col, Row, Badge } from 'antd'
-import Slider from '~/component/atoms/slider/slider'
 import CartModel from '~/component/atoms/cartmodel/cartmodel'
 const items = [
   {
@@ -107,9 +106,8 @@ const Header: React.FC = () => {
         </Row>
       </div>
 
-      <Slider />
     </header>
   )
 }
 
-export default Header
+export default Header;
