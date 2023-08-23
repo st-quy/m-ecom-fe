@@ -45,4 +45,6 @@ function Pagedetail() {
     </>
   )
 }
-export default App;
+
+export default App
+
