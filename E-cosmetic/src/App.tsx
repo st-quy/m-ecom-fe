@@ -6,49 +6,52 @@ import Detail from './pages/HomePage/detail/detail';
 import Register from './pages/HomePage/register/register';
 import Login from './pages/HomePage/login/login';
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb';
+import AddProductForm from './pages/AdminPage/product/addproduct';
 
 
 function App() {
   return (
 
-<Router>
-  <Routes>
-  <Route path="/sign-in" element={<Login />} />
+    <Router>
+      <Routes>
+        <Route path="*" element={<AddProductForm />} />
+
+        {/* <Route path="/sign-in" element={<Login />} />
   <Route path="/sign-up" element={<Register />} /> 
   <Route path="*" element={<PageUser />} />
-   <Route path="/products/:product_name/:id" element={<Pagedetail />} />
-  </Routes>
-</Router>
-
-  );
+   <Route path="/products/:product_name/:id" element={<Pagedetail />} /> */}
+      </Routes>
+    </Router>
+  )
 }
- function PageUser() {
-  return (
-    <>
-    <Header/>
-      <Routes>
+//  function PageUser() {
+//   return (
+//     <>
+//     <Header/>
 
-<Route path="/" element={<Home />} />
+//       <Routes>
 
-</Routes>
-<Footer/>
+// <Route path="/" element={<Home />} />
 
-</>
-  );
-}
-function Pagedetail() {
-  return (
-    <>
-    <Header/>
-    <BreadcrumbComponent></BreadcrumbComponent>
-      <Routes>
+// </Routes>
+// <Footer/>
 
-<Route path="/" element={<Detail />} />
+// </>
+//   );
+// }
+// function Pagedetail() {
+//   return (
+//     <>
+//     <Header/>
+//     <BreadcrumbComponent></BreadcrumbComponent>
+//       <Routes>
 
-</Routes>
-<Footer/>
+// <Route path="/" element={<Detail />} />
 
-</>
-  );
-}
+// </Routes>
+// <Footer/>
+
+// </>
+//   );
+// }
 export default App;
