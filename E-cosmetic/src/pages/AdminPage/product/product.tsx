@@ -91,6 +91,7 @@ const ProductTable: React.FC = () => {
             message.success('Cập nhật sản phẩm thành công');
             const updatedProducts = products.map(product => {
               if (product.id === selectedProduct?.id) {
+
 return {
                   ...product,
                   ...values
@@ -202,6 +203,7 @@ return {
           <Form.Item
             name="description"
             label="Description"
+
 rules={[{ required: true, message: 'Please enter description' }]}
           >
             <Input />
