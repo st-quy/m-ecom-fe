@@ -6,50 +6,52 @@ import Detail from './pages/HomePage/detail/detail';
 import Register from './pages/HomePage/register/register';
 import Login from './pages/HomePage/login/login';
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb';
+import AddProductForm from './pages/AdminPage/product/addproduct';
 
 
 function App() {
   return (
 
-<Router>
-  <Routes>
-  <Route path="/sign-in" element={<Login />} />
+    <Router>
+      <Routes>
+        <Route path="*" element={<AddProductForm />} />
+
+        {/* <Route path="/sign-in" element={<Login />} />
   <Route path="/sign-up" element={<Register />} /> 
   <Route path="*" element={<PageUser />} />
-   <Route path="/products/:product_name/:id" element={<Pagedetail />} />
-  </Routes>
-</Router>
-
-  );
+   <Route path="/products/:product_name/:id" element={<Pagedetail />} /> */}
+      </Routes>
+    </Router>
+  )
 }
- function PageUser() {
-  return (
-    <>
-    <Header/>
+//  function PageUser() {
+//   return (
+//     <>
+//     <Header/>
 
-      <Routes>
+//       <Routes>
 
-<Route path="/" element={<Home />} />
+// <Route path="/" element={<Home />} />
 
-</Routes>
-<Footer/>
+// </Routes>
+// <Footer/>
 
-</>
-  );
-}
-function Pagedetail() {
-  return (
-    <>
-    <Header/>
-    <BreadcrumbComponent></BreadcrumbComponent>
-      <Routes>
+// </>
+//   );
+// }
+// function Pagedetail() {
+//   return (
+//     <>
+//     <Header/>
+//     <BreadcrumbComponent></BreadcrumbComponent>
+//       <Routes>
 
-<Route path="/" element={<Detail />} />
+// <Route path="/" element={<Detail />} />
 
-</Routes>
-<Footer/>
+// </Routes>
+// <Footer/>
 
-</>
-  );
-}
+// </>
+//   );
+// }
 export default App;
