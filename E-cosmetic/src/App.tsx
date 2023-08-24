@@ -45,6 +45,4 @@ function Pagedetail() {
     </>
   )
 }
-
 export default App
-
