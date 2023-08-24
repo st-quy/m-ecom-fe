@@ -1,63 +1,89 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Popconfirm, message, Modal, Form, Input } from 'antd';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Modal, Form, Input, Select, Upload, Button,message,Table,Popconfirm} from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
+import axios from 'axios'
 
 interface Product {
-  id: number;
-  product_name: string;
-  description: string;
-  price: number;
-  image: string;
-  brand: string;
-  quantity_sold: number;
+  id: number
+  product_name: string
+  description: string
+  price: number
+  image: string
+  brand: string
+  quantity_sold: number
   category: {
-    id: number;
-    category_name: string;
-  };
+    id: number
+    category_name: string
+  }
+}
+interface Category {
+  id: number;
+  category_name: string;
 }
 
 const ProductTable: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [addProductModalVisible, setAddProductModalVisible] = useState(false);
-  const [editProductModalVisible, setEditProductModalVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [form] = Form.useForm();
+  const [products, setProducts] = useState<Product[]>([])
+  const [addProductModalVisible, setAddProductModalVisible] = useState(false)
+  const [editProductModalVisible, setEditProductModalVisible] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [form] = Form.useForm()
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const { Option } = Select;
 
   useEffect(() => {
     // Gọi API và cập nhật dữ liệu vào biến products
     axios
       .get('https://ecom-be-htgu.onrender.com/products')
       .then(response => {
-        setProducts(response.data);
+        setProducts(response.data)
       })
       .catch(error => {
-        console.error('Lỗi khi gọi API:', error);
+        console.error('Lỗi khi gọi API:', error)
+      })
+  }, [])
+  useEffect(() => {
+    axios.get('https://ecom-be-htgu.onrender.com/category')
+      .then(response => {
+        setCategories(response.data);
+      })
+      .catch(error => {
+        console.error('Error while calling API:', error);
       });
   }, []);
-
+  useEffect(() => {
+    if (selectedProduct) {
+      form.setFieldsValue({
+        name: selectedProduct.product_name,
+        description: selectedProduct.description,
+        price: selectedProduct.price,
+        brand: selectedProduct.brand
+      });
+    }
+  }, [selectedProduct, form]);
   const handleDelete = (productId: number) => {
     // Gọi API để xóa sản phẩm
     axios
       .delete(`https://ecom-be-htgu.onrender.com/products/${productId}`)
       .then(response => {
-        message.success('Xóa sản phẩm thành công');
+        message.success('Xóa sản phẩm thành công')
         // Cập nhật danh sách sản phẩm sau khi xóa
-        setProducts(products.filter(product => product.id !== productId));
+        setProducts(products.filter(product => product.id !== productId))
       })
       .catch(error => {
-        console.error('Lỗi khi xóa sản phẩm:', error);
-        message.error('Lỗi khi xóa sản phẩm');
-      });
-  };
+        console.error('Lỗi khi xóa sản phẩm:', error)
+        message.error('Lỗi khi xóa sản phẩm')
+      })
+  }
 
   const handleAddProduct = () => {
-    setAddProductModalVisible(true);
-  };
+    setAddProductModalVisible(true)
+  }
 
   const handleEditProduct = (product: Product) => {
-    setSelectedProduct(product);
-    setEditProductModalVisible(true);
-  };
+    setSelectedProduct(product)
+    setEditProductModalVisible(true)
+  }
 
   const handleAddProductModalOk = () => {
     form.validateFields()
@@ -66,61 +92,61 @@ const ProductTable: React.FC = () => {
         axios
           .post('https://ecom-be-htgu.onrender.com/products', values)
           .then(response => {
-            message.success('Thêm sản phẩm thành công');
-            setProducts([...products, response.data]);
-            setAddProductModalVisible(false);
-            form.resetFields();
+            message.success('Thêm sản phẩm thành công')
+            setProducts([...products, response.data])
+            setAddProductModalVisible(false)
+            form.resetFields()
           })
           .catch(error => {
-            console.error('Lỗi khi thêm sản phẩm:', error);
-            message.error('Lỗi khi thêm sản phẩm');
-          });
+            console.error('Lỗi khi thêm sản phẩm:', error)
+            message.error('Lỗi khi thêm sản phẩm')
+          })
       })
       .catch(error => {
-        console.error('Lỗi khi xác thực form:', error);
-      });
-  };
+        console.error('Lỗi khi xác thực form:', error)
+      })
+  }
 
   const handleEditProductModalOk = () => {
     form.validateFields()
       .then(values => {
         // Gọi API để cập nhật sản phẩm
         axios
-          .put(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values)
+          .patch(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values)
           .then(response => {
-            message.success('Cập nhật sản phẩm thành công');
+            message.success('Cập nhật sản phẩm thành công')
             const updatedProducts = products.map(product => {
               if (product.id === selectedProduct?.id) {
 return {
                   ...product,
                   ...values
-                };
+                }
               }
-              return product;
-            });
-            setProducts(updatedProducts);
-            setEditProductModalVisible(false);
-            form.resetFields();
+              return product
+            })
+            setProducts(updatedProducts)
+            setEditProductModalVisible(false)
+            form.resetFields()
           })
           .catch(error => {
-            console.error('Lỗi khi cập nhật sản phẩm:', error);
-            message.error('Lỗi khi cập nhật sản phẩm');
-          });
+            console.error('Lỗi khi cập nhật sản phẩm:', error)
+            message.error('Lỗi khi cập nhật sản phẩm')
+          })
       })
       .catch(error => {
-        console.error('Lỗi khi xác thực form:', error);
-      });
-  };
+        console.error('Lỗi khi xác thực form:', error)
+      })
+  }
 
   const handleAddProductModalCancel = () => {
-    setAddProductModalVisible(false);
-    form.resetFields();
-  };
+    setAddProductModalVisible(false)
+    form.resetFields()
+  }
 
   const handleEditProductModalCancel = () => {
-    setEditProductModalVisible(false);
-    form.resetFields();
-  };
+    setEditProductModalVisible(false)
+    form.resetFields()
+  }
 
   const columns = [
     {
@@ -144,9 +170,31 @@ return {
       key: 'price'
     },
     {
+      title: <div className="centered-title">quantity_inventory</div>,
+      dataIndex: 'quantity_inventory',
+      key: 'quantity_inventory'
+    },
+    {
       title: <div className="centered-title">Brand</div>,
       dataIndex: 'brand',
       key: 'brand'
+    },
+    {
+      title: <div className="centered-title">sku</div>,
+      dataIndex: 'sku',
+      key: 'sku'
+    },
+    {
+      title: <div className="centered-title">Image</div>,
+      dataIndex: 'image',
+      key: 'image',
+      render: (image:string) => <img src={image} alt="Product" style={{width:"100px",height:"100px"}} />
+    },
+    {
+      title: <div className="centered-title">Category</div>,
+      dataIndex: 'category',
+      key: 'category_name',
+      render: (category: any) => category ? category.category_name : ''
     },
     {
       title: <div className="centered-title">Actions</div>,
@@ -169,7 +217,7 @@ return {
         </div>
       )
     }
-  ];
+  ]
 
   return (
     <div className="product-table">
@@ -185,46 +233,84 @@ return {
         rowKey="id"
         pagination={false}
       />
-      <Modal
-        title="Add Product"
-        visible={addProductModalVisible}
-        onOk={handleAddProductModalOk}
-        onCancel={handleAddProductModalCancel}
-      >
-        <Form form={form} layout="vertical">
-          <Form.Item
-            name="name"
-            label="Product Name"
-            rules={[{ required: true, message: 'Please enter product name' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="Description"
-rules={[{ required: true, message: 'Please enter description' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="price"
-            label="Price"
-            rules={[{ required: true, message: 'Please enter price' }]}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="brand"
-            label="Brand"
-            rules={[{ required: true, message: 'Please enter brand' }]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
+   
+<Modal
+  title="Add Product"
+  open={addProductModalVisible}
+  onOk={handleAddProductModalOk}
+  onCancel={handleAddProductModalCancel}
+>
+  <Form form={form} layout="vertical">
+    <Form.Item
+      name="product_name"
+      label="Product name"
+      rules={[{ required: true, message: 'Please enter product name' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="description"
+      label="Description"
+      rules={[{ required: true, message: 'Please enter description' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="price"
+      label="Price"
+      rules={[{ required: true, message: 'Please enter price' }]}
+    >
+      <Input type="number" />
+    </Form.Item>
+    <Form.Item
+      name="quantity_inventory"
+      label="Quantity Inventory"
+      rules={[{ required: true, message: 'Please enter quantity inventory' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="brand"
+      label="Brand"
+      rules={[{ required: true, message: 'Please enter brand' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="sku"
+      label="SKU"
+      rules={[{ required: true, message: 'Please enter SKU' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+  name="category.id"
+  label="Category"
+  rules={[{ required: true, message: 'Please select category' }]}
+>
+<Select>
+        {categories.map(category => (
+          <Option key={category.id} value={category.id}>
+            {category.category_name}
+          </Option>
+        ))}
+      </Select>
+</Form.Item>
+    <Form.Item
+      name="image"
+      label="image"
+      rules={[{ required: true, message: 'Please upload image' }]}
+    >
+      <Upload>
+        <Button icon={<UploadOutlined />}>Upload Image</Button>
+      </Upload>
+    </Form.Item>
+  </Form>
+</Modal>
+
       <Modal
         title="Edit Product"
-        visible={editProductModalVisible}
+        open={editProductModalVisible}
         onOk={handleEditProductModalOk}
         onCancel={handleEditProductModalCancel}
       >
@@ -232,16 +318,13 @@ rules={[{ required: true, message: 'Please enter description' }]}
           <Form.Item
             name="name"
             label="Product Name"
-            initialValue={selectedProduct?.product_name}
-            rules={[{ required: true, message: 'Please enter product name' }]}
-          >
+            initialValue={selectedProduct?.product_name}>
             <Input />
           </Form.Item>
           <Form.Item
             name="description"
             label="Description"
             initialValue={selectedProduct?.description}
-            rules={[{ required: true, message: 'Please enter description' }]}
           >
             <Input />
           </Form.Item>
@@ -249,7 +332,6 @@ rules={[{ required: true, message: 'Please enter description' }]}
             name="price"
             label="Price"
             initialValue={selectedProduct?.price}
-            rules={[{ required: true, message: 'Please enter price' }]}
           >
             <Input type="number" />
           </Form.Item>
@@ -257,14 +339,13 @@ rules={[{ required: true, message: 'Please enter description' }]}
             name="brand"
             label="Brand"
             initialValue={selectedProduct?.brand}
-            rules={[{ required: true, message: 'Please enter brand' }]}
           >
             <Input />
           </Form.Item>
         </Form>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default ProductTable;
+export default ProductTable
