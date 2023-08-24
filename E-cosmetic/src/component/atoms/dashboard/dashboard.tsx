@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb} from 'antd';
 import { Link, useLocation, Routes, Route } from 'react-router-dom';
 import Category from '~/pages/AdminPage/category/category';
 import ProductTable from '~/pages/AdminPage/product/product';
@@ -48,7 +48,6 @@ const Dashboard = () => {
               <Route path="/" element={<h1>Welcome to Dashboard</h1>} />
               <Route path="/product" element={<ProductTable />} />
               <Route path="/category" element={<Category />} />
-
             </Routes>
           </Content>
         </Layout>
