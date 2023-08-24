@@ -117,7 +117,6 @@ const ProductTable: React.FC = () => {
             message.success('Cập nhật sản phẩm thành công')
             const updatedProducts = products.map(product => {
               if (product.id === selectedProduct?.id) {
-
 return {
                   ...product,
                   ...values
@@ -308,6 +307,7 @@ return {
     </Form.Item>
   </Form>
 </Modal>
+
       <Modal
         title="Edit Product"
         open={editProductModalVisible}
