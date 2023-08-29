@@ -90,16 +90,21 @@ const Header: React.FC = () => {
               </a>
             </CartModel>
           </Col>
+        {/* // //////////////////////// */}
+
           <Col xs={3} sm={3} md={3} lg={3} xl={3} className='col col__cart'>
             <div className='col__cart'>
               <UserOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
 
               <div className='col__cart__container1'>
+              <Link to="/sign-up">
                 <h4 className='col__cart__text' style={{ paddingBottom: '40px' }}>
-                  WELCOME!
+                  Đăng ký
                 </h4>
-
-                <h4 className='col__cart__text'>User1</h4>
+                </Link>
+                <Link to="/sign-in">
+                <h4 className='col__cart__text'>Đăng nhập</h4>
+                </Link>
               </div>
             </div>
           </Col>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Form, Input, Select, Upload, Button,message,Table,Popconfirm} from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
+import { getAccessToken } from '~/Auth/auth'
 import axios from 'axios'
 
 interface Product {
@@ -10,11 +11,8 @@ interface Product {
   price: number
   image: string
   brand: string
-  quantity_sold: number
-  category: {
-    id: number
-    category_name: string
-  }
+  quantity_inventory: number
+  category: number
 }
 interface Category {
   id: number;
@@ -30,10 +28,12 @@ const ProductTable: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const { Option } = Select;
+  const accessToken = getAccessToken();
 
   useEffect(() => {
-    // Gọi API và cập nhật dữ liệu vào biến products
+
     axios
+
       .get('https://ecom-be-htgu.onrender.com/products')
       .then(response => {
         setProducts(response.data)
@@ -43,7 +43,12 @@ const ProductTable: React.FC = () => {
       })
   }, [])
   useEffect(() => {
-    axios.get('https://ecom-be-htgu.onrender.com/category')
+    axios.get('https://ecom-be-htgu.onrender.com/category',  {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+      )
       .then(response => {
         setCategories(response.data);
       })
@@ -64,7 +69,11 @@ const ProductTable: React.FC = () => {
   const handleDelete = (productId: number) => {
     // Gọi API để xóa sản phẩm
     axios
-      .delete(`https://ecom-be-htgu.onrender.com/products/${productId}`)
+      .delete(`https://ecom-be-htgu.onrender.com/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(response => {
         message.success('Xóa sản phẩm thành công')
         // Cập nhật danh sách sản phẩm sau khi xóa
@@ -90,7 +99,11 @@ const ProductTable: React.FC = () => {
       .then(values => {
         // Gọi API để thêm sản phẩm
         axios
-          .post('https://ecom-be-htgu.onrender.com/products', values)
+          .post('https://ecom-be-htgu.onrender.com/products', values , {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then(response => {
             message.success('Thêm sản phẩm thành công')
             setProducts([...products, response.data])
@@ -112,7 +125,11 @@ const ProductTable: React.FC = () => {
       .then(values => {
         // Gọi API để cập nhật sản phẩm
         axios
-          .patch(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values)
+          .patch(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+      })
           .then(response => {
             message.success('Cập nhật sản phẩm thành công')
             const updatedProducts = products.map(product => {
