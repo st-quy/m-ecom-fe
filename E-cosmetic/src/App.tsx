@@ -7,6 +7,7 @@ import Register from './pages/HomePage/register/register'
 import Login from './pages/HomePage/login/login'
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb'
 import Dashboard from './component/atoms/dashboard/dashboard'
+import AddProductForm from './pages/AdminPage/product/addproduct'
 
 function App() {
   return (
@@ -19,6 +20,13 @@ function App() {
         <Route path='/products/:product_name/:id' element={<Pagedetail />} />
       </Routes>
     </Router>
+  )
+}
+function Admin (){
+  return (
+    <Routes>
+        <Route path='/' element={<Dashboard />} />
+        </Routes>
   )
 }
 function PageUser() {

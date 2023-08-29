@@ -69,9 +69,7 @@ function User() {
 export default User;
 
 async function getUser() {
-  // TODO: Gọi API để lấy danh sách người dùng
-  // Ví dụ:
-  const response = await fetch("https://api.example.com/users")
+  const response = await fetch("https://ecom-be-htgu.onrender.com/users")
   const data = await response.json()
   return data
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Input, Select, Upload, Button,message,Table,Popconfirm} from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
+import { Modal, Form, Input, Button, message, Table, Popconfirm, Spin} from 'antd'
 import axios from 'axios'
+import AddProductForm from './addproduct'
 
 interface Product {
   id: number
@@ -20,28 +20,28 @@ interface Category {
   id: number;
   category_name: string;
 }
-
 const ProductTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([])
-  const [addProductModalVisible, setAddProductModalVisible] = useState(false)
   const [editProductModalVisible, setEditProductModalVisible] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [form] = Form.useForm()
   const [categories, setCategories] = useState<Category[]>([]);
-
-  const { Option } = Select;
+  const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
-    // Gọi API và cập nhật dữ liệu vào biến products
+    setLoading(true); // Set loading state to true before fetching products
     axios
       .get('https://ecom-be-htgu.onrender.com/products')
       .then(response => {
-        setProducts(response.data)
+        setProducts(response.data);
       })
       .catch(error => {
-        console.error('Lỗi khi gọi API:', error)
+        console.error('Lỗi khi gọi API:', error);
       })
-  }, [])
+      .finally(() => {
+        setLoading(false); // Set loading state to false after fetching products
+      });
+  }, []);
   useEffect(() => {
     axios.get('https://ecom-be-htgu.onrender.com/category')
       .then(response => {
@@ -76,36 +76,12 @@ const ProductTable: React.FC = () => {
       })
   }
 
-  const handleAddProduct = () => {
-    setAddProductModalVisible(true)
-  }
-
+ 
   const handleEditProduct = (product: Product) => {
     setSelectedProduct(product)
     setEditProductModalVisible(true)
   }
 
-  const handleAddProductModalOk = () => {
-    form.validateFields()
-      .then(values => {
-        // Gọi API để thêm sản phẩm
-        axios
-          .post('https://ecom-be-htgu.onrender.com/products', values)
-          .then(response => {
-            message.success('Thêm sản phẩm thành công')
-            setProducts([...products, response.data])
-            setAddProductModalVisible(false)
-            form.resetFields()
-          })
-          .catch(error => {
-            console.error('Lỗi khi thêm sản phẩm:', error)
-            message.error('Lỗi khi thêm sản phẩm')
-          })
-      })
-      .catch(error => {
-        console.error('Lỗi khi xác thực form:', error)
-      })
-  }
 
   const handleEditProductModalOk = () => {
     form.validateFields()
@@ -139,16 +115,11 @@ return {
       })
   }
 
-  const handleAddProductModalCancel = () => {
-    setAddProductModalVisible(false)
-    form.resetFields()
-  }
-
   const handleEditProductModalCancel = () => {
     setEditProductModalVisible(false)
     form.resetFields()
   }
-
+  
   const columns = [
     {
       title: <div className='centered-title'>ID</div>,
@@ -221,100 +192,35 @@ return {
   ]
 
   return (
+    <div className="app">
+ 
+    {loading ? (
+      <div   style={{marginTop:"20%",marginLeft:"50%",color:"green"}}>
+      <Spin size="large"/>Loading....
+      </div>
+    ) : (
     <div className="product-table">
+   
       <div className="table-header">
-        <h2>Product List</h2>
-        <Button type="primary" onClick={handleAddProduct}>
-          Add Product
-        </Button>
+        <AddProductForm/>
       </div>
       <Table
         dataSource={products}
         columns={columns}
         rowKey="id"
-        pagination={false}
+        pagination={{
+          current:1,
+          pageSize:10,
+        }}
       />
    
-<Modal
-  title="Add Product"
-  open={addProductModalVisible}
-  onOk={handleAddProductModalOk}
-  onCancel={handleAddProductModalCancel}
->
-  <Form form={form} layout="vertical">
-    <Form.Item
-      name="product_name"
-      label="Product name"
-      rules={[{ required: true, message: 'Please enter product name' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="description"
-      label="Description"
-      rules={[{ required: true, message: 'Please enter description' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="price"
-      label="Price"
-      rules={[{ required: true, message: 'Please enter price' }]}
-    >
-      <Input type="number" />
-    </Form.Item>
-    <Form.Item
-      name="quantity_inventory"
-      label="Quantity Inventory"
-      rules={[{ required: true, message: 'Please enter quantity inventory' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="brand"
-      label="Brand"
-      rules={[{ required: true, message: 'Please enter brand' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="sku"
-      label="SKU"
-      rules={[{ required: true, message: 'Please enter SKU' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-  name="category.id"
-  label="Category"
-  rules={[{ required: true, message: 'Please select category' }]}
->
-<Select>
-        {categories.map(category => (
-          <Option key={category.id} value={category.id}>
-            {category.category_name}
-          </Option>
-        ))}
-      </Select>
-</Form.Item>
-    <Form.Item
-      name="image"
-      label="image"
-      rules={[{ required: true, message: 'Please upload image' }]}
-    >
-      <Upload>
-        <Button icon={<UploadOutlined />}>Upload Image</Button>
-      </Upload>
-    </Form.Item>
-  </Form>
-</Modal>
       <Modal
         title="Edit Product"
         open={editProductModalVisible}
         onOk={handleEditProductModalOk}
         onCancel={handleEditProductModalCancel}
       >
-        <Form form={form} layout="vertical">
+        <Form form={form} layout="vertical" >
           <Form.Item
             name="name"
             label="Product Name"
@@ -342,10 +248,18 @@ return {
           >
             <Input />
           </Form.Item>
+          <Form.Item
+            name="image"
+            label="Image"
+            initialValue={selectedProduct?.image}
+          >
+            <Input />
+          </Form.Item>
         </Form>
       </Modal>
     </div>
+    )}
+    </div>
   )
 }
-
 export default ProductTable
