@@ -33,22 +33,20 @@ const Dashboard = () => {
       } catch (error) {
         console.error('Error fetching product data:', error);
       };
-      // Thực hiện yêu cầu HTTP để lấy dữ liệu từ API
+
       fetch('https://ecom-be-htgu.onrender.com/checkout')
         .then(response => response.json())
         .then(data => {
-          // Lấy dữ liệu cần thiết từ kết quả API (ví dụ: orderCount)
           const { orderCount } = data;
           setOrderCount(orderCount);
         })
         .catch(error => {
           console.error('Error:', error);
         });
-      // Thực hiện yêu cầu HTTP để lấy dữ liệu từ API
+
       fetch('https://ecom-be-htgu.onrender.com/users')
         .then(response => response.json())
         .then(data => {
-          // Lấy dữ liệu cần thiết từ kết quả API (ví dụ: userCount)
           const { userCount } = data;
           setUserCount(userCount);
         })
