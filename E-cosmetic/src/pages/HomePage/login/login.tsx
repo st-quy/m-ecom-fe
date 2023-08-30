@@ -1,4 +1,4 @@
-import { Space, Card, Input, Form, Button, Divider } from 'antd'
+import { Space, Card, Input, Form, Button, Divider   } from 'antd'
 import { UserOutlined, FacebookOutlined } from '@ant-design/icons'
 import { Link,useNavigate  } from 'react-router-dom'
 import requestApi from '~/helpers/helper'
@@ -18,7 +18,6 @@ const Login = () => {
         localStorage.setItem('accessToken', res.data.accessToken);
      
       });
-  
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Wrong username or password!');

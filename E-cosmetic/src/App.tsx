@@ -23,12 +23,11 @@ function App() {
   return (
     <Router>
       <Routes>
-      <Route path="*" element={<Admin />} />
       <Route path='/checkout/:id/*' element={<CheckoutForm />} />
 
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
-        <Route path='/about' element={<About />} />
+        <Route path='/*' element={<About />} />
         <Route path='/service' element={<Service />} />
 
 

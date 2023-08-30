@@ -105,7 +105,9 @@ const CheckoutForm = () => {
               <Input />
             </Form.Item>
             <Form.Item>
-              <Button type='primary' htmlType='submit'>
+
+              <Button type='primary' htmlType='submit'
+>
                 Checkout
               </Button>
             </Form.Item>
