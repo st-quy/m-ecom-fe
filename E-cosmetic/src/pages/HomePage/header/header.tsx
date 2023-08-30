@@ -1,8 +1,9 @@
-import React from 'react'
 import { ShoppingCartOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { Col, Row, Badge } from 'antd'
 import CartModel from '~/component/atoms/cartmodel/cartmodel'
+import { useTokenDecoding } from '~/helpers/api'
+
 const items = [
   {
     label: '1st menu item',
@@ -17,7 +18,13 @@ const items = [
     key: '3'
   }
 ]
+
+
 const Header: React.FC = () => {
+
+  const [accessToken,decodedToken] = useTokenDecoding();
+
+
   return (
     <header>
       <div className='header'>
@@ -72,8 +79,8 @@ const Header: React.FC = () => {
             </CartModel>
           </Col>
           <Col xs={1} sm={2} md={2} lg={1} xl={3} className='col col__cart'>
+            <Link to={`/cart/${decodedToken?.id}`}  >
             <CartModel items={items}>
-              <a onClick={(e) => e.preventDefault()}>
                 <div className='col__cart'>
                   <Badge count={5}>
                     <ShoppingCartOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
@@ -87,19 +94,38 @@ const Header: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </a>
             </CartModel>
+            </Link>
           </Col>
+        {/* // //////////////////////// */}
+
           <Col xs={3} sm={3} md={3} lg={3} xl={3} className='col col__cart'>
             <div className='col__cart'>
               <UserOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
 
               <div className='col__cart__container1'>
-                <h4 className='col__cart__text' style={{ paddingBottom: '40px' }}>
-                  WELCOME!
+                {decodedToken && decodedToken.role ? (
+            <>
+              <h4 className="col__cart__text name" style={{ paddingBottom: '40px' }}>
+                {decodedToken.name}
+              </h4>
+      
+                <h4>        <Link className="col__cart__text" to="/log-out">Log out         </Link>    </h4>
+      
+            </>
+          ) : (
+            <>
+            
+                <h4  style={{ paddingBottom: '40px' }}>
+                <Link  className="col__cart__text" to="/sign-up">   Đăng ký   </Link>
                 </h4>
-
-                <h4 className='col__cart__text'>User1</h4>
+            
+             
+                
+                <h4 > <Link   className="col__cart__text" to="/sign-in">Đăng nhập    </Link></h4>
+           
+            </>
+          )}
               </div>
             </div>
           </Col>

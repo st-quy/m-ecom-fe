@@ -1,34 +1,41 @@
-import { Space, Card, Input, Form, Button, Divider } from 'antd';
-import { UserOutlined, FacebookOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Space, Card, Input, Form, Button, Divider } from 'antd'
+import { UserOutlined, FacebookOutlined } from '@ant-design/icons'
+import { Link,useNavigate  } from 'react-router-dom'
+import requestApi from '~/helpers/helper'
+import { useTokenDecoding } from '~/helpers/api'
+import { Navigation } from 'react-router-dom'
 
 const Login = () => {
+
+  const [accessToken, decodedToken] = useTokenDecoding();
   const navigate = useNavigate();
 
-  const onFinish = async (values: { phoneNumber: string, password: string }) => {
+  const onFinish = async (values: { phoneNumber: string; password: string }) => {
     try {
       const { phoneNumber, password } = values;
-      const response = await axios.post('https://ecom-be-htgu.onrender.com/auth/login', {
+      await requestApi<any>('/auth/login', 'POST', {
         phoneNumber,
-        password,
+        password
+      }).then((res) => {
+        localStorage.setItem('accessToken', res.data.accessToken);
       });
+      if (decodedToken && decodedToken.role === 'admin') {
+        navigate('*'); 
+        
+      }else{
+        navigate('/homepage')
 
-      const { data } = response;
-      console.log('Login successful:', data);
-      alert('Login successfully'); // Display success message upon successful login
-
-      navigate("/");
-
+      }
     } catch (error) {
       console.error('Login failed:', error);
-      alert('Login failed. Wrong username or password!'); // Display error message upon login failure
+      alert('Login failed. Wrong username or password!');
     }
   };
 
+  
   return (
     <>
-      <div style={{ backgroundColor: '#8CAE71', minHeight: '100vh' }}> {/* Set the background color and minimum height to cover the entire screen */}
+      <div style={{ backgroundColor: '#8CAE71', minHeight: '100vh' }}>
         <Space size={20} style={{ margin: '6.5% 16%' }}>
           <div>
             <Card bordered={false} style={{ background: 'rgba(126, 170, 146, 0.30)' }}>
@@ -40,20 +47,37 @@ const Login = () => {
             </Card>
           </div>
           <div>
-            <Card title='Sign in' bordered={false} style={{ width: 500 }} headStyle={{ textAlign: 'center', fontSize: '2em' }}>
+            <Card
+              title='Sign in'
+              bordered={false}
+              style={{ width: 500 }}
+              headStyle={{ textAlign: 'center', fontSize: '2em' }}
+            >
               <Space direction='vertical' style={{ width: '100%' }} size={20}>
                 <Form onFinish={onFinish}>
-                  <Form.Item label='Phone number' labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} name="phoneNumber" rules={[{ required: true, message: 'Please input your phone number!' }]}>
+                  <Form.Item
+                    label='Phone number'
+                    labelCol={{ span: 24 }}
+                    wrapperCol={{ span: 24 }}
+                    name='phoneNumber'
+                    rules={[{ required: true, message: 'Please input your phone number!' }]}
+                  >
                     <Input size='large' placeholder='Input phone number' prefix={<UserOutlined />} />
                   </Form.Item>
 
-                  <Form.Item label='Your password' labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+                  <Form.Item
+                    label='Your password'
+                    labelCol={{ span: 24 }}
+                    wrapperCol={{ span: 24 }}
+                    name='password'
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                  >
                     <Input.Password size='large' placeholder='Input password' />
                   </Form.Item>
                   <Form.Item wrapperCol={{ span: 24 }}>
                     <Button
-                      type="primary"
-                      htmlType="submit"
+                      type='primary'
+                      htmlType='submit'
                       style={{
                         width: '100%',
                         borderRadius: '16px',
@@ -81,10 +105,12 @@ const Login = () => {
                     fontWeight: '400'
                   }}
                 >
-                  <FacebookOutlined style={{ color: "blue" }} />   Continue with Facebook
+                  <FacebookOutlined style={{ color: 'blue' }} /> Continue with Facebook
                 </Button>
 
-                <h5 style={{ textAlign: "center" }}><u>Forgot your password?</u></h5>
+                <h5 style={{ textAlign: 'center' }}>
+                  <u>Forgot your password?</u>
+                </h5>
               </Space>
             </Card>
           </div>
@@ -102,11 +128,13 @@ const Login = () => {
           padding: '0px'
         }}
       >
-        Don't have an account? <Link to="/sign-up"><u>Sign up</u></Link>
+        Don't have an account?{' '}
+        <Link to='/sign-up'>
+          <u>Sign up</u>
+        </Link>
       </Button>
-
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
