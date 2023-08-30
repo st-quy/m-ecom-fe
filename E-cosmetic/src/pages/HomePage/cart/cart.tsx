@@ -1,89 +1,87 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Image, Space, Button } from 'antd';
-import axios from 'axios';
-import { getAccessToken } from '~/Auth/auth';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Table, Image, Space, Button,Row,Col} from 'antd'
+import axios from 'axios'
+import { getAccessToken } from '~/Auth/auth'
+import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 interface Cart {
-  id: number;
-  total_price: number;
-  total_quantity: number;
-  cartsProduct: CartProduct[];
+  id: number
+  total_price: number
+  total_quantity: number
+  cartsProduct: CartProduct[]
 }
 
 interface CartProduct {
-  cartId: number;
-  quantity: number;
-  product: Product;
+  cartId: number
+  quantity: number
+  product: Product
 }
 
 interface Product {
-  id: number;
-  product_name: string;
-  price: number;
-  image: string;
-  description: string;
-  sku: string;
+  id: number
+  product_name: string
+  price: number
+  image: string
+  description: string
+  sku: string
 }
 
 const CartTable: React.FC = () => {
-  const [cart, setCart] = useState<Cart | null>(null);
-  const accessToken = getAccessToken();
-  const { id } = useParams();
+  const [cart, setCart] = useState<Cart | null>(null)
+  const accessToken = getAccessToken()
+  const { id } = useParams()
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    fetchCart()
+  }, [])
 
   const fetchCart = async () => {
     try {
       const response = await axios.get<Cart[]>(`https://ecom-be-htgu.onrender.com/carts/${id}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const cartData = response.data[0];
-      setCart(cartData);
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      const cartData = response.data[0]
+      setCart(cartData)
     } catch (error) {
-      console.error('Error fetching cart:', error);
+      console.error('Error fetching cart:', error)
     }
-  };
+  }
 
   const updateQuantity = async (productId: string, operation: 'add' | 'remove') => {
     try {
       await axios.patch(
         `https://ecom-be-htgu.onrender.com/carts`,
         {
-          userId:id,
+          userId: id,
           productId: productId,
-          operation: operation,
+          operation: operation
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+            Authorization: `Bearer ${accessToken}`
+          }
         }
-      );
-      fetchCart(); 
+      )
+      fetchCart()
     } catch (error) {
-      console.error('Error updating quantity:', error);
+      console.error('Error updating quantity:', error)
     }
-  };
+  }
   const removeProduct = async (productId: string) => {
     try {
-      await axios.delete(
-        `https://ecom-be-htgu.onrender.com/carts/remove/${id}/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+      await axios.delete(`https://ecom-be-htgu.onrender.com/carts/remove/${id}/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
         }
-      );
-      fetchCart(); 
+      })
+      fetchCart()
     } catch (error) {
-      console.error('Error removing product:', error);
+      console.error('Error removing product:', error)
     }
-  };
+  }
   const columns = [
     {
       title: 'Image',
@@ -93,7 +91,7 @@ const CartTable: React.FC = () => {
         <>
           <Image src={product.image} alt={product.product_name} width={120} />
         </>
-      ),
+      )
     },
     {
       title: 'Product',
@@ -101,7 +99,7 @@ const CartTable: React.FC = () => {
       key: 'product',
       render: (product: Product) => (
         <>
-          <Space direction="vertical" size={20}>
+          <Space direction='vertical' size={20}>
             <span>
               <b>{product.product_name}</b>
             </span>
@@ -110,13 +108,13 @@ const CartTable: React.FC = () => {
             </span>
           </Space>
         </>
-      ),
+      )
     },
     {
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
-      render: (price: number) => <span>{price}</span>,
+      render: (price: number) => <span>{price}</span>
     },
     {
       title: 'Quantity',
@@ -130,42 +128,66 @@ const CartTable: React.FC = () => {
           </span>
           <Button onClick={() => updateQuantity(record.product.id.toString(), 'add')}>+</Button>
         </Space>
-      ),
+      )
     },
-
     {
       title: 'Total Price',
-      dataIndex: 'total_price',
       key: 'total_price',
-      render: (totalPrice: number) => <span>${totalPrice},00</span>,
+      render: (price: number,record: CartProduct) => (
+        <span>${record.product.price * record.quantity}</span>
+      )
     },
     {
       title: 'Remove',
       key: 'remove',
       render: (text: any, record: CartProduct) => (
-        <Button type="primary" danger onClick={() => removeProduct(record.product.id.toString())}>
+        <Button type='primary' danger onClick={() => removeProduct(record.product.id.toString())}>
           Remove
         </Button>
-      )},
+      )
+    }
   ];
-  const dataSource = cart?.cartsProduct.map((item) => ({
-    key: item.product.id, 
-    cartId: item.cartId,
-    product: item.product,
-    price: item.product.price,
-    quantity: item.quantity,
-    description: item.product.description,
-    total_price: cart.total_price,
-  })) || [];
-  const rowClassName = () => 'custom-row';
+  const dataSource =
+    cart?.cartsProduct.map((item) => ({
+      key: item.product.id,
+      cartId: item.cartId,
+      product: item.product,
+      price: item.product.price,
+      quantity: item.quantity,
+      description: item.product.description,
+      total_price: cart.total_price
+    })) || []
+  const rowClassName = () => 'custom-row'
 
   return (
-    <div className="Cart-container">
+    <div className='Cart-container'>
       <>
         <Table columns={columns} dataSource={dataSource} rowClassName={rowClassName} />
+        <Row style={{ marginLeft:"10%",marginTop:"30px" }} gutter={[20,40]}> 
+      <Col xs={24} sm={12} md={12} lg={14} xl={16}>
+        <Space direction="vertical" size="large">
+          <Link to="/homepage">
+          <Button size="large">Keep shopping</Button>
+          </Link>
+        </Space>
+      </Col>
+      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+  <Space direction="vertical" size="large">
+  {cart && (
+                <>
+                  <h4>Total Quantity product: {cart.total_quantity}</h4>
+                  <h4>Total Payment: ${cart.total_price}</h4>
+                </>
+              )}
+              <Link to={`/checkout/${id}`}>
+    <Button size="large" style={{ marginLeft: "50px" }}>Payment</Button>
+    </Link>
+  </Space>
+</Col>
+    </Row>
       </>
     </div>
-  );
-};
+  )
+}
 
-export default CartTable;
+export default CartTable

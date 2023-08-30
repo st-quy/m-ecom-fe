@@ -5,9 +5,7 @@ import { UserOutlined, ShoppingCartOutlined, HomeOutlined, ShoppingOutlined, App
 import { Link, useLocation, Routes, Route } from 'react-router-dom';
 import Category from '~/pages/AdminPage/category/category';
 import ProductTable from '~/pages/AdminPage/product/product';
-import User from '~/pages/AdminPage/user/user';
 import SubMenu from 'antd/es/menu/SubMenu';
-
 import UserTable from '~/pages/AdminPage/user/user';
 const { Header, Content, Sider } = Layout;
 export const AdminRoutes = () => (
@@ -35,22 +33,20 @@ const Dashboard = () => {
       } catch (error) {
         console.error('Error fetching product data:', error);
       };
-      // Thực hiện yêu cầu HTTP để lấy dữ liệu từ API
+
       fetch('https://ecom-be-htgu.onrender.com/checkout')
         .then(response => response.json())
         .then(data => {
-          // Lấy dữ liệu cần thiết từ kết quả API (ví dụ: orderCount)
           const { orderCount } = data;
           setOrderCount(orderCount);
         })
         .catch(error => {
           console.error('Error:', error);
         });
-      // Thực hiện yêu cầu HTTP để lấy dữ liệu từ API
+
       fetch('https://ecom-be-htgu.onrender.com/users')
         .then(response => response.json())
         .then(data => {
-          // Lấy dữ liệu cần thiết từ kết quả API (ví dụ: userCount)
           const { userCount } = data;
           setUserCount(userCount);
         })
@@ -159,7 +155,6 @@ const Dashboard = () => {
                 </div>
               } />
              
-              <Route path="/" element={<h1>Welcome to Dashboard</h1>} />
               <Route path="*" element={<AdminRoutes />} />
              
 

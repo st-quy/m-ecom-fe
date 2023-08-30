@@ -11,8 +11,11 @@ import Dashboard from './component/atoms/dashboard/dashboard'
 import AddProductForm from './pages/AdminPage/product/addproduct'
 
 import CartComponent from './pages/HomePage/cart/cart'
+import About from './pages/About Us/about'
+import Service from './pages/HomePage/service/service'
 import Logout from './pages/HomePage/Logout/logout'
 import CartTable from './pages/HomePage/cart/cart'
+import CheckoutForm from './pages/HomePage/payment/payment'
 
 
 function App() {
@@ -20,9 +23,14 @@ function App() {
   return (
     <Router>
       <Routes>
-      <Route path="*" element={<Admin />} />
+      <Route path='/checkout/:id/*' element={<CheckoutForm />} />
+
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
+        <Route path='/*' element={<About />} />
+        <Route path='/service' element={<Service />} />
+
+
         <Route path='/cart/:id/*' element={<Cart/>}></Route>
         <Route path='/sign-up' element={<Register />} />
         <Route path='/homepage' element={<PageUser />} />
@@ -31,12 +39,6 @@ function App() {
     </Router>
   )
 }
-
-function Admin (){
-  return (
-    <Routes>
-        <Route path='/' element={<Dashboard />} />
-        </Routes>
 
 function Cart() {
   return (
