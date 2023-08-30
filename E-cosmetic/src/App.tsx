@@ -7,9 +7,13 @@ import Register from './pages/HomePage/register/register'
 import Login from './pages/HomePage/login/login'
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb'
 import Dashboard from './component/atoms/dashboard/dashboard'
+
+import AddProductForm from './pages/AdminPage/product/addproduct'
+
 import CartComponent from './pages/HomePage/cart/cart'
 import Logout from './pages/HomePage/Logout/logout'
 import CartTable from './pages/HomePage/cart/cart'
+
 
 function App() {
 
@@ -27,6 +31,13 @@ function App() {
     </Router>
   )
 }
+
+function Admin (){
+  return (
+    <Routes>
+        <Route path='/' element={<Dashboard />} />
+        </Routes>
+
 function Cart() {
   return (
     <>
@@ -44,6 +55,7 @@ function Cart() {
       <Route path='*' element={<Dashboard />} />
 
     </Routes>
+
   )
 }
 function PageUser() {
