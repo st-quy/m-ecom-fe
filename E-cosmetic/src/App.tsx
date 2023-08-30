@@ -8,13 +8,18 @@ import Login from './pages/HomePage/login/login'
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb'
 import Dashboard from './component/atoms/dashboard/dashboard'
 import CartComponent from './pages/HomePage/cart/cart'
-import { AdminRoutes } from './component/atoms/dashboard/dashboard'
+import Logout from './pages/HomePage/Logout/logout'
+import CartTable from './pages/HomePage/cart/cart'
+
 function App() {
+
   return (
     <Router>
       <Routes>
-      <Route path="*" element={<Admin/>} />
+      <Route path="*" element={<Admin />} />
+        <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
+        <Route path='/cart/:id/*' element={<Cart/>}></Route>
         <Route path='/sign-up' element={<Register />} />
         <Route path='/homepage' element={<PageUser />} />
         <Route path='/products/:product_name/:id' element={<Pagedetail />} />
@@ -22,7 +27,18 @@ function App() {
     </Router>
   )
 }
-function Admin() {
+function Cart() {
+  return (
+    <>
+      <Header />
+      <BreadcrumbComponent></BreadcrumbComponent>
+      <Routes>
+        <Route path='*' element={<CartTable />} />
+      </Routes>
+      <Footer />
+    </>
+  )
+}function Admin() {
   return (
     <Routes>
       <Route path='*' element={<Dashboard />} />
