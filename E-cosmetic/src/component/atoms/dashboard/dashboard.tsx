@@ -5,9 +5,7 @@ import { UserOutlined, ShoppingCartOutlined, HomeOutlined, ShoppingOutlined, App
 import { Link, useLocation, Routes, Route } from 'react-router-dom';
 import Category from '~/pages/AdminPage/category/category';
 import ProductTable from '~/pages/AdminPage/product/product';
-import User from '~/pages/AdminPage/user/user';
 import SubMenu from 'antd/es/menu/SubMenu';
-
 import UserTable from '~/pages/AdminPage/user/user';
 const { Header, Content, Sider } = Layout;
 export const AdminRoutes = () => (
@@ -159,7 +157,6 @@ const Dashboard = () => {
                 </div>
               } />
              
-              <Route path="/" element={<h1>Welcome to Dashboard</h1>} />
               <Route path="*" element={<AdminRoutes />} />
              
 

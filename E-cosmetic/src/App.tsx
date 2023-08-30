@@ -32,12 +32,6 @@ function App() {
   )
 }
 
-function Admin (){
-  return (
-    <Routes>
-        <Route path='/' element={<Dashboard />} />
-        </Routes>
-
 function Cart() {
   return (
     <>
