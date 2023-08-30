@@ -24,14 +24,21 @@ const Login = () => {
       alert('Login failed. Wrong username or password!');
     }
   };
+  console.time("executionTime");
 
-  if (decodedToken && (decodedToken.role === 'admin' ||decodedToken.role==="marketing")) {
-    navigate('*'); 
-    console.log(decodedToken.role);
-  }else if( (decodedToken && decodedToken.role === 'user' )){
-    console.log(decodedToken?.role);
-    navigate('/homepage')
+  if (decodedToken) {
+    if (decodedToken.role === 'admin' || decodedToken.role === 'marketing') {
+      navigate('*');
+      console.log(decodedToken.role);
+      console.timeEnd("executionTime");
+    } else if (decodedToken.role === 'user') {
+      console.log(decodedToken.role);
+      navigate('/homepage');
+      console.timeEnd("executionTime");
+    }
   }
+  
+
   return (
     <>
       <div style={{ backgroundColor: '#8CAE71', minHeight: '100vh' }}>

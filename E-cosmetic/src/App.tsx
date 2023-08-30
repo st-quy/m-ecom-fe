@@ -8,6 +8,8 @@ import Login from './pages/HomePage/login/login'
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb'
 import Dashboard from './component/atoms/dashboard/dashboard'
 import CartComponent from './pages/HomePage/cart/cart'
+import About from './pages/About Us/about'
+import Service from './pages/HomePage/service/service'
 import Logout from './pages/HomePage/Logout/logout'
 import CartTable from './pages/HomePage/cart/cart'
 import CheckoutForm from './pages/HomePage/payment/payment'
@@ -22,6 +24,10 @@ function App() {
 
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/service' element={<Service />} />
+
+
         <Route path='/cart/:id/*' element={<Cart/>}></Route>
         <Route path='/sign-up' element={<Register />} />
         <Route path='/homepage' element={<PageUser />} />
