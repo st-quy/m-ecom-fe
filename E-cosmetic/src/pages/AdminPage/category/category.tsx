@@ -47,7 +47,7 @@ const Category: React.FC = () => {
 
   const updateCategory = (category: Category) => {
     axios
-      .put(`https://ecom-be-htgu.onrender.com/category/${category.id}`, category)
+      .patch(`https://ecom-be-htgu.onrender.com/category/${category.id}`, category)
       .then((response) => {
         message.success('Cập nhật category thành công');
         setIsModalVisible(false);

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Layout, Menu, Breadcrumb, Statistic, Avatar, Col, Row, Button } from 'antd';
 import { UserOutlined, ShoppingCartOutlined, HomeOutlined, ShoppingOutlined, AppstoreOutlined } from '@ant-design/icons';
@@ -6,8 +7,16 @@ import Category from '~/pages/AdminPage/category/category';
 import ProductTable from '~/pages/AdminPage/product/product';
 import User from '~/pages/AdminPage/user/user';
 import SubMenu from 'antd/es/menu/SubMenu';
-const { Header, Content, Sider } = Layout;
 
+import UserTable from '~/pages/AdminPage/user/user';
+const { Header, Content, Sider } = Layout;
+export const AdminRoutes = () => (
+  <Routes>
+    <Route path="/product" element={<ProductTable />} />
+    <Route path="/category" element={<Category />} />
+    <Route path="/user" element={<UserTable />} />
+  </Routes>
+);
 const Dashboard = () => {
   const location = useLocation();
   const [productCount, setProductCount] = useState(0);
@@ -83,6 +92,7 @@ const Dashboard = () => {
             selectedKeys={[location.pathname]}
             style={{ height: '100%', borderRight: 0 }}
           >
+
             <SubMenu
               key="/dashboard"
               title={
@@ -100,6 +110,7 @@ const Dashboard = () => {
             </SubMenu>
             <Menu.Item key="/user">
               <Link to="/user"><UserOutlined /> Users</Link>
+
             </Menu.Item>
           </Menu>
         </Sider>
@@ -113,6 +124,7 @@ const Dashboard = () => {
           </Breadcrumb>
           <Content className="site-layout-background" style={{ padding: 10, margin: 0, minHeight: 280, }}>
             <Routes>
+
               <Route path="/dashboard" element={
                 <div>
                   <Row gutter={100}>
@@ -146,9 +158,11 @@ const Dashboard = () => {
                   </Row>
                 </div>
               } />
-              <Route path="/product" element={<ProductTable />} />
-              <Route path="/category" element={<Category />} />
-              <Route path="/user" element={<User />} />
+             
+              <Route path="/" element={<h1>Welcome to Dashboard</h1>} />
+              <Route path="*" element={<AdminRoutes />} />
+             
+
             </Routes>
           </Content>
         </Layout>

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Input, Button, message, Table, Popconfirm, Spin} from 'antd'
+
+import { Modal, Form, Input, Select, Upload, Button,message,Table,Popconfirm,Spin} from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
+import { getAccessToken } from '~/Auth/auth'
 import axios from 'axios'
 import AddProductForm from './addproduct'
 
@@ -10,11 +13,8 @@ interface Product {
   price: number
   image: string
   brand: string
-  quantity_sold: number
-  category: {
-    id: number
-    category_name: string
-  }
+  quantity_inventory: number
+  category: number
 }
 interface Category {
   id: number;
@@ -26,11 +26,19 @@ const ProductTable: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [form] = Form.useForm()
   const [categories, setCategories] = useState<Category[]>([]);
+
   const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
     setLoading(true); // Set loading state to true before fetching products
+
+  const { Option } = Select;
+  const accessToken = getAccessToken();
+
+  useEffect(() => {
+
     axios
+
       .get('https://ecom-be-htgu.onrender.com/products')
       .then(response => {
         setProducts(response.data);
@@ -43,7 +51,12 @@ const ProductTable: React.FC = () => {
       });
   }, []);
   useEffect(() => {
-    axios.get('https://ecom-be-htgu.onrender.com/category')
+    axios.get('https://ecom-be-htgu.onrender.com/category',  {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+      )
       .then(response => {
         setCategories(response.data);
       })
@@ -64,7 +77,11 @@ const ProductTable: React.FC = () => {
   const handleDelete = (productId: number) => {
     // Gọi API để xóa sản phẩm
     axios
-      .delete(`https://ecom-be-htgu.onrender.com/products/${productId}`)
+      .delete(`https://ecom-be-htgu.onrender.com/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(response => {
         message.success('Xóa sản phẩm thành công')
         // Cập nhật danh sách sản phẩm sau khi xóa
@@ -83,17 +100,47 @@ const ProductTable: React.FC = () => {
   }
 
 
+  const handleAddProductModalOk = () => {
+    form.validateFields()
+      .then(values => {
+        // Gọi API để thêm sản phẩm
+        axios
+          .post('https://ecom-be-htgu.onrender.com/products', values , {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then(response => {
+            message.success('Thêm sản phẩm thành công')
+            setProducts([...products, response.data])
+            setAddProductModalVisible(false)
+            form.resetFields()
+          })
+          .catch(error => {
+            console.error('Lỗi khi thêm sản phẩm:', error)
+            message.error('Lỗi khi thêm sản phẩm')
+          })
+      })
+      .catch(error => {
+        console.error('Lỗi khi xác thực form:', error)
+      })
+  }
+
+
   const handleEditProductModalOk = () => {
     form.validateFields()
       .then(values => {
         // Gọi API để cập nhật sản phẩm
         axios
-          .patch(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values)
+          .patch(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+      })
           .then(response => {
             message.success('Cập nhật sản phẩm thành công')
             const updatedProducts = products.map(product => {
               if (product.id === selectedProduct?.id) {
-
 return {
                   ...product,
                   ...values
@@ -214,6 +261,81 @@ return {
         }}
       />
    
+
+
+<Modal
+  title="Add Product"
+  open={addProductModalVisible}
+  onOk={handleAddProductModalOk}
+  onCancel={handleAddProductModalCancel}
+>
+  <Form form={form} layout="vertical">
+    <Form.Item
+      name="product_name"
+      label="Product name"
+      rules={[{ required: true, message: 'Please enter product name' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="description"
+      label="Description"
+      rules={[{ required: true, message: 'Please enter description' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="price"
+      label="Price"
+      rules={[{ required: true, message: 'Please enter price' }]}
+    >
+      <Input type="number" />
+    </Form.Item>
+    <Form.Item
+      name="quantity_inventory"
+      label="Quantity Inventory"
+      rules={[{ required: true, message: 'Please enter quantity inventory' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="brand"
+      label="Brand"
+      rules={[{ required: true, message: 'Please enter brand' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name="sku"
+      label="SKU"
+      rules={[{ required: true, message: 'Please enter SKU' }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+  name="category.id"
+  label="Category"
+  rules={[{ required: true, message: 'Please select category' }]}
+>
+<Select>
+        {categories.map(category => (
+          <Option key={category.id} value={category.id}>
+            {category.category_name}
+          </Option>
+        ))}
+      </Select>
+</Form.Item>
+    <Form.Item
+      name="image"
+      label="image"
+      rules={[{ required: true, message: 'Please upload image' }]}
+    >
+      <Upload>
+        <Button icon={<UploadOutlined />}>Upload Image</Button>
+      </Upload>
+    </Form.Item>
+  </Form>
+</Modal>
       <Modal
         title="Edit Product"
         open={editProductModalVisible}
