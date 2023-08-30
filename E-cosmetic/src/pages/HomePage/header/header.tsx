@@ -19,68 +19,44 @@ const items = [
   }
 ]
 
-
 const Header: React.FC = () => {
-
-  const [accessToken,decodedToken] = useTokenDecoding();
-
+  const [accessToken, decodedToken] = useTokenDecoding()
 
   return (
     <header>
       <div className='header'>
         <Row className='header-row'>
           <Col className='col col__image' xs={5} sm={4} md={5} lg={5} xl={6}>
-          <Link to ="/">
-            <img
-              className='col_image__logo'
-              src='../../../../src/assets/955c7c5dc1a345e0a839c0d9f20cf96b.png'
-              alt='Logo'
-       
-            />
-                   <h2>2TBH SHOP</h2>
-                   </Link>
+            <Link to='/'>
+              <img
+                className='col_image__logo'
+                src='../../../../src/assets/955c7c5dc1a345e0a839c0d9f20cf96b.png'
+                alt='Logo'
+              />
+              <h2>2TBH SHOP</h2>
+            </Link>
           </Col>
           <div className='tags-navigation'>
-          <Col  className='tags'  xs={5} sm={4} md={5} lg={5} xl={3}>
-          <Link to ="/">
+            <Col className='tags' xs={5} sm={4} md={5} lg={5} xl={3}>
+              <Link to='/homepage'>
+                <h2>Home</h2>
+              </Link>
+            </Col>
+            <Col className='tags' xs={5} sm={4} md={5} lg={5} xl={3}>
+              <Link to='/about'>
+                <h2>About</h2>
+              </Link>
+            </Col>
+            <Col className='tags' xs={5} sm={4} md={5} lg={5} xl={2}>
+              <Link to='/service'>
+                <h2>Service</h2>
+              </Link>
+            </Col>
+          </div>
 
-          
-                   <h2>Home</h2>
-                   </Link>
-          </Col>
-          <Col  className='tags'  xs={5} sm={4} md={5} lg={5} xl={3}>
-          
-          <h2>About</h2>
-      </Col>
- <Col  className='tags'  xs={5} sm={4} md={5} lg={5} xl={2}>
- <Link to ="/">
-
-          <h2>Service</h2>
-          </Link>
- </Col>
- </div>
-          <Col xs={4} sm={3} md={3} lg={3} xl={3} className='col col__cart'>
-            <CartModel items={items}>
-              <a onClick={(e) => e.preventDefault()}>
-                <div className='col__cart'>
-                  <Badge count={5}>
-                    <HeartOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
-                  </Badge>
-
-                  <div className='col__cart__container'>
-                    <h4 className='col__cart__text'>Favorite</h4>
-                    <div className='col__cart__inline'>
-                      <h4 className='col__cart__text1 no-margin'>0</h4>
-                      <h4 className='col__cart__text1'>Products</h4>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </CartModel>
-          </Col>
           <Col xs={1} sm={2} md={2} lg={1} xl={3} className='col col__cart'>
-            <Link to={`/cart/${decodedToken?.id}`}  >
-            <CartModel items={items}>
+            <Link to={`/cart/${decodedToken?.id}`}>
+              <CartModel items={items}>
                 <div className='col__cart'>
                   <Badge count={5}>
                     <ShoppingCartOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
@@ -94,10 +70,10 @@ const Header: React.FC = () => {
                     </div>
                   </div>
                 </div>
-            </CartModel>
+              </CartModel>
             </Link>
           </Col>
-        {/* // //////////////////////// */}
+          {/* // //////////////////////// */}
 
           <Col xs={3} sm={3} md={3} lg={3} xl={3} className='col col__cart'>
             <div className='col__cart'>
@@ -105,35 +81,42 @@ const Header: React.FC = () => {
 
               <div className='col__cart__container1'>
                 {decodedToken && decodedToken.role ? (
-            <>
-              <h4 className="col__cart__text name" style={{ paddingBottom: '40px' }}>
-                {decodedToken.name}
-              </h4>
-      
-                <h4>        <Link className="col__cart__text" to="/log-out">Log out         </Link>    </h4>
-      
-            </>
-          ) : (
-            <>
-            
-                <h4  style={{ paddingBottom: '40px' }}>
-                <Link  className="col__cart__text" to="/sign-up">   Đăng ký   </Link>
-                </h4>
-            
-             
-                
-                <h4 > <Link   className="col__cart__text" to="/sign-in">Đăng nhập    </Link></h4>
-           
-            </>
-          )}
+                  <>
+                    <h4 className='col__cart__text name' style={{ paddingBottom: '40px' }}>
+                      {decodedToken.name}
+                    </h4>
+
+                    <h4>
+                      {' '}
+                      <Link className='col__cart__text' to='/log-out'>
+                        Log out{' '}
+                      </Link>{' '}
+                    </h4>
+                  </>
+                ) : (
+                  <>
+                    <h4 style={{ paddingBottom: '40px' }}>
+                      <Link className='col__cart__text' to='/sign-up'>
+                        {' '}
+                        Đăng ký{' '}
+                      </Link>
+                    </h4>
+
+                    <h4>
+                      {' '}
+                      <Link className='col__cart__text' to='/sign-in'>
+                        Đăng nhập{' '}
+                      </Link>
+                    </h4>
+                  </>
+                )}
               </div>
             </div>
           </Col>
         </Row>
       </div>
-
     </header>
   )
 }
 
-export default Header;
+export default Header
