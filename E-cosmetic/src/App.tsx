@@ -10,6 +10,7 @@ import Dashboard from './component/atoms/dashboard/dashboard'
 import CartComponent from './pages/HomePage/cart/cart'
 import Logout from './pages/HomePage/Logout/logout'
 import CartTable from './pages/HomePage/cart/cart'
+import CheckoutForm from './pages/HomePage/payment/payment'
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
     <Router>
       <Routes>
       <Route path="*" element={<Admin />} />
+      <Route path='/checkout/:id/*' element={<CheckoutForm />} />
+
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
         <Route path='/cart/:id/*' element={<Cart/>}></Route>

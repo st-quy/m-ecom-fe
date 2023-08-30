@@ -3,8 +3,6 @@ import { UserOutlined, FacebookOutlined } from '@ant-design/icons'
 import { Link,useNavigate  } from 'react-router-dom'
 import requestApi from '~/helpers/helper'
 import { useTokenDecoding } from '~/helpers/api'
-import { Navigation } from 'react-router-dom'
-
 const Login = () => {
 
   const [accessToken, decodedToken] = useTokenDecoding();
@@ -18,21 +16,22 @@ const Login = () => {
         password
       }).then((res) => {
         localStorage.setItem('accessToken', res.data.accessToken);
+     
       });
-      if (decodedToken && decodedToken.role === 'admin') {
-        navigate('*'); 
-        
-      }else{
-        navigate('/homepage')
-
-      }
+  
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Wrong username or password!');
     }
   };
 
-  
+  if (decodedToken && (decodedToken.role === 'admin' ||decodedToken.role==="marketing")) {
+    navigate('*'); 
+    console.log(decodedToken.role);
+  }else if( (decodedToken && decodedToken.role === 'user' )){
+    console.log(decodedToken?.role);
+    navigate('/homepage')
+  }
   return (
     <>
       <div style={{ backgroundColor: '#8CAE71', minHeight: '100vh' }}>
@@ -103,7 +102,7 @@ const Login = () => {
                     fontSize: '18px',
                     fontStyle: 'normal',
                     fontWeight: '400'
-                  }}
+                  }} href='https://ecom-be-htgu.onrender.com/login/google'
                 >
                   <FacebookOutlined style={{ color: 'blue' }} /> Continue with Facebook
                 </Button>
