@@ -26,7 +26,7 @@ const Header: React.FC = () => {
     <header>
       <div className='header'>
         <Row className='header-row'>
-          <Col className='col col__image' xs={5} sm={4} md={5} lg={5} xl={6}>
+          <Col className='col col__image' xs={5} sm={4} md={5} lg={5} xl={8}>
             <Link to='/'>
               <img
                 className='col_image__logo'
@@ -36,24 +36,25 @@ const Header: React.FC = () => {
               <h2>2TBH SHOP</h2>
             </Link>
           </Col>
+          <Col xl={10}md={8} lg={8}>
           <div className='tags-navigation'>
             <Col className='tags' xs={5} sm={4} md={5} lg={5} xl={3}>
-              <Link to='/homepage'>
-                <h2>Home</h2>
-              </Link>
+          
+                <p>    <Link style={{   color:"white" }} to='/homepage'>Home </Link></p>
+             
             </Col>
             <Col className='tags' xs={5} sm={4} md={5} lg={5} xl={3}>
-              <Link to='/about'>
-                <h2>About</h2>
-              </Link>
+            
+                <p> <Link   style={{   color:"white" }} to="/about">About</Link></p>
+             
             </Col>
             <Col className='tags' xs={5} sm={4} md={5} lg={5} xl={2}>
-              <Link to='/service'>
-                <h2>Service</h2>
-              </Link>
+          
+                <p>    <Link  style={{   color:"white" }} to='/service'>Service</Link></p>
+            
             </Col>
           </div>
-
+          </Col>
           <Col xs={1} sm={2} md={2} lg={1} xl={3} className='col col__cart'>
             <Link to={`/cart/${decodedToken?.id}`}>
               <CartModel items={items}>

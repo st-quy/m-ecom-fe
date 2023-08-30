@@ -11,6 +11,8 @@ const CheckoutForm = () => {
   const [cart, setCart] = useState<any>(null);
   const [form] = Form.useForm();
   const { id } = useParams<any>();
+  const [data, setData] = useState('');
+
 
   useEffect(() => {
     fetchCart();
@@ -25,6 +27,7 @@ const CheckoutForm = () => {
        });
       const cartData = response.data[0];
       setCart(cartData);
+
     } catch (error) {
       console.error('Error fetching cart:', error);
     }
@@ -34,9 +37,13 @@ const CheckoutForm = () => {
     try {
       const response = await axios.post('https://ecom-be-htgu.onrender.com/checkout/generateQRCode', formData
       );
+
+      setData(response.data);
+
+
       console.log("thanh cong");
       console.log('QR code:', formData);
-
+    console.log(data)
       
     } catch (error) {
               console.log('QR code:', formData);
@@ -54,8 +61,14 @@ const CheckoutForm = () => {
       userId: id,
       paymentId,
     };
+    
     await generateQRCode(formData);
+    if (data) {
+        window.location.href = data;
+      }
   };
+  
+  
 
   const dataSource = cart?.cartsProduct?.map((item: any) => ({
     key: item.product.id,
@@ -72,6 +85,7 @@ const CheckoutForm = () => {
 
   return (
     <div className='Cart-container'>
+
       <Row gutter={[20, 40]}>
         <Col xs={24} sm={12} md={12} lg={12} xl={12}>
           <Form form={form} onFinish={handleCheckout} layout='vertical'>
@@ -106,8 +120,8 @@ const CheckoutForm = () => {
             </Form.Item>
             <Form.Item>
 
-              <Button type='primary' htmlType='submit'
->
+            <Button type="primary" htmlType="submit" >
+
                 Checkout
               </Button>
             </Form.Item>
