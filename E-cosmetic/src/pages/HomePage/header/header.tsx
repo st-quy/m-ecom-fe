@@ -93,7 +93,7 @@ const Header: React.FC = () => {
                     </h4>
 
                     <h4>
-                      <Link className='col__cart__text' id='login-text' to='/sign-in'>
+                      <Link className='col__cart__text' to='/sign-in'>
                         Đăng nhập
                       </Link>
                     </h4>
