@@ -432,6 +432,37 @@ const ProductTable: React.FC = () => {
                   <Form.Item name='brand' label='Brand' initialValue={selectedProduct?.brand}>
                     <Input />
                   </Form.Item>
+             
+        
+          <Form.Item
+            name="quantity_inventory"
+            label="quantity_inventory"
+            initialValue={selectedProduct?.quantity_inventory}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="sku"
+            label="skU"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="category"
+            label="category"
+            initialValue={selectedProduct?.category}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="image"
+            label="image"
+            rules={[{ required: true, message: 'Please upload image' }]}
+          >
+            <Upload>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
+          </Form.Item>
                 </Form>
               </Modal>
             </div>
