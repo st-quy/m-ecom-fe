@@ -162,7 +162,7 @@ const CartTable: React.FC = () => {
   return (
     <div className='Cart-container'>
       <>
-        <Table columns={columns} dataSource={dataSource} rowClassName={rowClassName} />
+        <Table columns={columns} dataSource={dataSource} rowClassName={rowClassName}  />
         <Row style={{ marginLeft:"10%",marginTop:"30px" }} gutter={[20,40]}> 
       <Col xs={24} sm={12} md={12} lg={14} xl={16}>
         <Space direction="vertical" size="large">

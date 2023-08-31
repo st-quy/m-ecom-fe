@@ -1,5 +1,5 @@
 import  { useEffect, useState } from 'react';
-import { Row, Col, Form, Input, Button, Table,Space } from 'antd';
+import { Row, Col, Form, Input, Button, Table,Space,Select } from 'antd';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { getAccessToken } from '~/Auth/auth';
@@ -13,6 +13,7 @@ const CheckoutForm = () => {
   const { id } = useParams<any>();
   const [data, setData] = useState('');
 
+  const { Option } = Select;
 
   useEffect(() => {
     fetchCart();
@@ -112,12 +113,15 @@ const CheckoutForm = () => {
             </Form.Item>
 
             <Form.Item
-              label='Payment'
-              name='paymentId'
-              rules={[{ required: true, message: 'Please enter payment method' }]}
-            >
-              <Input />
-            </Form.Item>
+  label='Payment'
+  name='paymentId'
+  rules={[{ required: true, message: 'Please select a payment method' }]}
+>
+  <Select>
+    <Option value={1}>COD</Option>
+    <Option value={2}>Momo</Option>
+  </Select>
+</Form.Item>
             <Form.Item>
 
             <Button type="primary" htmlType="submit" >

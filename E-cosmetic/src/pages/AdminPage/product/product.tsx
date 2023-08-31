@@ -359,6 +359,35 @@ render: (image:string) => <img src={image} alt="Product" style={{width:"100px",h
           >
             <Input />
           </Form.Item>
+          <Form.Item
+            name="image"
+            label="image"
+            rules={[{ required: true, message: 'Please upload image' }]}
+          >
+            <Upload>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item
+            name="quantity_inventory"
+            label="quantity_inventory"
+            initialValue={selectedProduct?.quantity_inventory}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="sku"
+            label="SKU"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="category"
+            label="category"
+            initialValue={selectedProduct?.category}
+          >
+            <Input />
+          </Form.Item>
         </Form>
       </Modal>
     </div>

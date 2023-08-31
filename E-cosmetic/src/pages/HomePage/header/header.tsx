@@ -1,23 +1,9 @@
 import { ShoppingCartOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { Col, Row, Badge } from 'antd'
-import CartModel from '~/component/atoms/cartmodel/cartmodel'
 import { useTokenDecoding } from '~/helpers/api'
 
-const items = [
-  {
-    label: '1st menu item',
-    key: '1'
-  },
-  {
-    label: '2nd menu item',
-    key: '2'
-  },
-  {
-    label: '3rd menu item',
-    key: '3'
-  }
-]
+
 
 const Header: React.FC = () => {
   const [accessToken, decodedToken] = useTokenDecoding()
@@ -57,11 +43,8 @@ const Header: React.FC = () => {
           </Col>
           <Col xs={1} sm={2} md={2} lg={1} xl={3} className='col col__cart'>
             <Link to={`/cart/${decodedToken?.id}`}>
-              <CartModel items={items}>
                 <div className='col__cart'>
-            
                     <ShoppingCartOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
-              
 
                   <div className='col__cart__container'>
                     <h4 className='col__cart__text'>Cart</h4>
@@ -71,7 +54,6 @@ const Header: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </CartModel>
             </Link>
           </Col>
           {/* // //////////////////////// */}

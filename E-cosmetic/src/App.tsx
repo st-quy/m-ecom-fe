@@ -24,10 +24,11 @@ function App() {
     <Router>
       <Routes>
       <Route path='/checkout/:id/*' element={<CheckoutForm />} />
+      <Route path='/Admin' element={<Admin />} />
 
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
-        <Route path='/*' element={<About />} />
+        <Route path='/*' element={<Admin />} />
         <Route path='/service' element={<Service />} />
 
 
