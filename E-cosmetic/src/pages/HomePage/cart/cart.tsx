@@ -3,6 +3,7 @@ import { Table, Image, Space, Button,Row,Col} from 'antd'
 import axios from 'axios'
 import { getAccessToken } from '~/Auth/auth'
 import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 interface Cart {
   id: number
@@ -165,7 +166,9 @@ const CartTable: React.FC = () => {
         <Row style={{ marginLeft:"10%",marginTop:"30px" }} gutter={[20,40]}> 
       <Col xs={24} sm={12} md={12} lg={14} xl={16}>
         <Space direction="vertical" size="large">
+          <Link to="/homepage">
           <Button size="large">Keep shopping</Button>
+          </Link>
         </Space>
       </Col>
       <Col xs={24} sm={12} md={8} lg={8} xl={8}>
@@ -176,7 +179,9 @@ const CartTable: React.FC = () => {
                   <h4>Total Payment: ${cart.total_price}</h4>
                 </>
               )}
+              <Link to={`/checkout/${id}`}>
     <Button size="large" style={{ marginLeft: "50px" }}>Payment</Button>
+    </Link>
   </Space>
 </Col>
     </Row>

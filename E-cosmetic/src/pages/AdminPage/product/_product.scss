@@ -1,7 +1,6 @@
 .product-table {
     margin-top: 20px;
     width: 100%;
-    background-color: #c8e4b2;
   }
   
   .product-table table {
@@ -30,3 +29,83 @@
     align-items: center;
     height: 100%;
   }
+  
+  // Định nghĩa các biến màu sắc
+$primary-color: #007bff;
+$danger-color: #dc3545;
+
+// Định nghĩa lớp cho bảng
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: $primary-color;
+    color: #fff;
+  }
+
+  td {
+    img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+  }
+
+  .centered-title {
+    text-align: center;
+  }
+
+  .centered-actions {
+    display: flex;
+    justify-content: center;
+
+    button {
+      margin: 0 4px;
+    }
+
+    .edit-button {
+      color: $primary-color;
+    }
+
+    .delete-button {
+      color: $danger-color;
+    }
+  }
+}
+
+// Tạo responsive cho bảng
+@media screen and (max-width: 767px) {
+  .table {
+    th, td {
+      display: block;
+      width: 100%;
+    }
+
+    th {
+      text-align: left;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    .centered-title {
+      text-align: center;
+    }
+
+    .centered-actions {
+      flex-direction: column;
+
+      button {
+        margin: 4px 0;
+      }
+    }
+  }
+}
+  

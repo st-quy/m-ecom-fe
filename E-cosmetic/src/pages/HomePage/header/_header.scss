@@ -99,10 +99,12 @@
   width: 45px;
   height: 45px; /* Điều chỉnh kích thước biểu tượng theo ý muốn */
 }
-.tags h2{
+.tags p{
    margin-top: 35px;
+   font-size: 1.5em;
+ 
 }
 .tags-navigation{
   display: flex;
-  gap:35px
+  gap:65px
 }

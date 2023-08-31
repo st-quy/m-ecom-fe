@@ -1,12 +1,39 @@
-import { Space, Card, Input, Form, Button, Divider } from 'antd'
+import { Space, Card, Input, Form, Button, Divider   } from 'antd'
 import { UserOutlined, FacebookOutlined } from '@ant-design/icons'
 import { Link,useNavigate  } from 'react-router-dom'
 import requestApi from '~/helpers/helper'
 import { useTokenDecoding } from '~/helpers/api'
+import axios from 'axios';
+import  { useEffect } from 'react';
+
+
 const Login = () => {
 
   const [accessToken, decodedToken] = useTokenDecoding();
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://ecom-be-htgu.onrender.com/login/google/callback', {
+          // Các thông tin yêu cầu khác nếu cần
+        });
+        
+        const accessToken: string = response.data.accessToken;
+        
+        // Lưu accessToken vào localStorage
+        localStorage.setItem('accessToken', accessToken);
+  
+        // Hiển thị thông báo lưu thành công
+        console.log('Lưu accessToken vào localStorage thành công!');
+      } catch (error) {
+        console.log(accessToken);
+        
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const onFinish = async (values: { phoneNumber: string; password: string }) => {
     try {
@@ -18,23 +45,20 @@ const Login = () => {
         localStorage.setItem('accessToken', res.data.accessToken);
      
       });
-  
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Wrong username or password!');
     }
   };
-  console.time("executionTime");
+ 
 
   if (decodedToken) {
     if (decodedToken.role === 'admin' || decodedToken.role === 'marketing') {
       navigate('*');
       console.log(decodedToken.role);
-      console.timeEnd("executionTime");
     } else if (decodedToken.role === 'user') {
       console.log(decodedToken.role);
       navigate('/homepage');
-      console.timeEnd("executionTime");
     }
   }
   

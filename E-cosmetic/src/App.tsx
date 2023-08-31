@@ -7,6 +7,9 @@ import Register from './pages/HomePage/register/register'
 import Login from './pages/HomePage/login/login'
 import BreadcrumbComponent from './component/atoms/breadcrumb/breadcrumb'
 import Dashboard from './component/atoms/dashboard/dashboard'
+
+import AddProductForm from './pages/AdminPage/product/addproduct'
+
 import CartComponent from './pages/HomePage/cart/cart'
 import About from './pages/About Us/about'
 import Service from './pages/HomePage/service/service'
@@ -14,17 +17,17 @@ import Logout from './pages/HomePage/Logout/logout'
 import CartTable from './pages/HomePage/cart/cart'
 import CheckoutForm from './pages/HomePage/payment/payment'
 
+
 function App() {
 
   return (
     <Router>
       <Routes>
-      <Route path="*" element={<Admin />} />
       <Route path='/checkout/:id/*' element={<CheckoutForm />} />
 
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
-        <Route path='/about' element={<About />} />
+        <Route path='/*' element={<About />} />
         <Route path='/service' element={<Service />} />
 
 
@@ -36,6 +39,7 @@ function App() {
     </Router>
   )
 }
+
 function Cart() {
   return (
     <>
@@ -53,6 +57,7 @@ function Cart() {
       <Route path='*' element={<Dashboard />} />
 
     </Routes>
+
   )
 }
 function PageUser() {

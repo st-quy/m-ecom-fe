@@ -196,4 +196,6 @@ function UserTable(): JSX.Element {
   );
 }
 
+
 export default UserTable;
+

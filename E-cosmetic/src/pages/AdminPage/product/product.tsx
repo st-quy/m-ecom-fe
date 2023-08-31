@@ -101,7 +101,7 @@ const ProductTable: React.FC = () => {
         axios
           .post('https://ecom-be-htgu.onrender.com/products', values , {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+Authorization: `Bearer ${accessToken}`,
             },
           })
           .then(response => {
@@ -205,7 +205,7 @@ return {
       title: <div className="centered-title">Image</div>,
       dataIndex: 'image',
       key: 'image',
-      render: (image:string) => <img src={image} alt="Product" style={{width:"100px",height:"100px"}} />
+render: (image:string) => <img src={image} alt="Product" style={{width:"100px",height:"100px"}} />
     },
     {
       title: <div className="centered-title">Category</div>,
@@ -319,7 +319,7 @@ return {
       rules={[{ required: true, message: 'Please upload image' }]}
     >
       <Upload>
-        <Button icon={<UploadOutlined />}>Upload Image</Button>
+<Button icon={<UploadOutlined />}>Upload Image</Button>
       </Upload>
     </Form.Item>
   </Form>

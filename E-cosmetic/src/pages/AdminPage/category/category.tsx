@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form, Input, message, Popconfirm } from 'antd';
+import { Table, Button, Modal, Form, Input, message, Popconfirm ,Spin} from 'antd';
 import axios from 'axios';
 
 interface Category {
@@ -13,6 +13,8 @@ const Category: React.FC = () => {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [addForm] = Form.useForm();
+  const [loading, setLoading] = useState(true); // Added loading state
+
 
   useEffect(() => {
     // Gọi API và cập nhật dữ liệu vào biến categories
@@ -27,6 +29,9 @@ const Category: React.FC = () => {
       })
       .catch((error: any) => {
         console.error('Lỗi khi gọi API:', error);
+      })      
+      .finally(() => {
+        setLoading(false); // Set loading state to false after fetching products
       });
   };
 
@@ -76,7 +81,7 @@ const Category: React.FC = () => {
       key: 'id',
     },
     {
-      title: 'Tên danh mục',
+      title: 'Category_name',
       dataIndex: 'category_name',
       key: 'category_name',
     },
@@ -86,7 +91,7 @@ const Category: React.FC = () => {
       render: (_: any, record: Category) => (
         <span>
           <Button type="primary"  size="small" onClick={() => handleAction(record)}>
-            Chỉnh sửa
+            Edit
           </Button>
           <Popconfirm
             title="Bạn có chắc chắn muốn xóa danh mục này?"
@@ -95,7 +100,7 @@ const Category: React.FC = () => {
             cancelText="Hủy"
           >
             <Button type="primary" danger size="small">
-              Xóa
+              Delete
             </Button>
           </Popconfirm>
         </span>
@@ -104,8 +109,15 @@ const Category: React.FC = () => {
   ];
 
   return (
-    <div>
-      <Table dataSource={categories} columns={columns} />
+    <div className="app">
+ 
+    {loading ? (
+      <div   style={{marginTop:"20%",marginLeft:"50%",color:"green"}}>
+      <Spin size="large"/>Loading....
+      </div>
+    ) : (
+      <div>
+              <Table dataSource={categories} columns={columns} />
 
       <Modal
         title="Chỉnh sửa danh mục"
@@ -119,7 +131,10 @@ const Category: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
+      </div>
+    )}
     </div>
+   
   );
 };
 
