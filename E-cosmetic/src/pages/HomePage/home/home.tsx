@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect ,useState } from 'react';
+
 import { Col, Row } from 'antd';
 import Slider from '~/component/atoms/slider/slider';
 import CardProduct from '~/component/atoms/cardproduct/cartProduct';
@@ -27,7 +28,20 @@ const Home: React.FC = () => {
   const handleCategoryChange = (value: string) => {
     setCategoryId(value);
   };
-
+  
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const accessToken = searchParams.get("accessToken");
+  
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+      window.location.href = ('/homepage')
+    }
+  }, []);
+  
+    
+    
+    
   return (
     <>
     <Slider />

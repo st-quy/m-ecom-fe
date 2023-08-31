@@ -43,7 +43,6 @@ const CheckoutForm = () => {
 
       console.log("thanh cong");
       console.log('QR code:', formData);
-    console.log(data)
       
     } catch (error) {
               console.log('QR code:', formData);
@@ -65,6 +64,7 @@ const CheckoutForm = () => {
     await generateQRCode(formData);
     if (data) {
         window.location.href = data;
+        
       }
   };
   
@@ -121,7 +121,6 @@ const CheckoutForm = () => {
             <Form.Item>
 
             <Button type="primary" htmlType="submit" >
-
                 Checkout
               </Button>
             </Form.Item>

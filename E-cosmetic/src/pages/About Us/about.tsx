@@ -1,12 +1,43 @@
-import React from 'react';
+
 import { Row, Col, Typography, Divider } from 'antd';
 import Header from '../HomePage/header/header';
 import Footer from '../HomePage/footer/footer';
 import Slider from '~/component/atoms/slider/slider';
+import { useEffect } from 'react';
+import { useLocation } from "react-router-dom";
+import axios from 'axios';
 
 const { Title } = Typography;
 
 const About = () => {
+  const location = useLocation();
+
+
+  
+    useEffect(() => {
+      const searchParams = new URLSearchParams(location.search);
+      const orderId = searchParams.get("orderId");
+      const message  = searchParams.get("message");
+  
+      // Đẩy dữ liệu lên API
+      const postData = async () => {
+        try {
+          const response = await axios.post("https://ecom-be-htgu.onrender.com/checkout/savedata", {
+            orderId,
+            message ,
+          });
+            console.log("Dữ liệu đã được đẩy lên API thành công");
+            console.log(message);
+            console.log(message)
+        } catch (error) {
+          console.error("Lỗi khi đẩy dữ liệu lên API:", error);
+          console.log(orderId, message );
+        }
+      };
+  
+      postData();
+    }, [location.search]);
+
   return (
     <>
       <Header />

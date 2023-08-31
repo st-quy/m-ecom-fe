@@ -59,14 +59,14 @@ const Header: React.FC = () => {
             <Link to={`/cart/${decodedToken?.id}`}>
               <CartModel items={items}>
                 <div className='col__cart'>
-                  <Badge count={5}>
+            
                     <ShoppingCartOutlined style={{ color: 'white' }} shape='square' className='col__cart__icon' />
-                  </Badge>
+              
 
                   <div className='col__cart__container'>
                     <h4 className='col__cart__text'>Cart</h4>
                     <div className='col__cart__inline'>
-                      <h4 className='col__cart__text1 no-margin'>0</h4>
+             
                       <h4 className='col__cart__text1'>Products</h4>
                     </div>
                   </div>
