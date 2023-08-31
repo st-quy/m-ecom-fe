@@ -102,7 +102,7 @@ const CardProduct: React.FC<CardProductProps> = ({
             onClick={() => handleCardClick(product.id, product.product_name)}
           >
             <Card size='small' className='product-card'>
-              <img className='productimg' src={product.image} alt='' style={{ width: '100%' }} />
+              <img className='productimg' src={`https://ecom-be-htgu.onrender.com/${product.image}`} alt='' style={{ width: '100%' }} />
               <p className='productname'>{product.product_name}</p>
               <p className='productprice'>{product.price},00 USD</p>
               <p className='productdescription'>{product.description}</p>

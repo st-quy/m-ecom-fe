@@ -93,7 +93,7 @@ const CartTable: React.FC = () => {
       key: 'image',
       render: (product: Product) => (
         <>
-          <Image src={product.image} alt={product.product_name} width={120} />
+          <Image src={`https://ecom-be-htgu.onrender.com/${product.image}`} alt={product.product_name} width={120} />
         </>
       )
     },

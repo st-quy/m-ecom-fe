@@ -102,7 +102,7 @@ const Detail: React.FC = () => {
       <Header />
       <Space size={20} style={{ marginLeft: '7.5%', marginRight: '7.5%', marginTop: '40px' }}>
         <div className='left'>
-          <img src={image} style={{ width: '300px', height: '400px', backgroundBlendMode: 'darken' }}></img>
+          <img src={`https://ecom-be-htgu.onrender.com/${image}`} style={{ width: '300px', height: '400px', backgroundBlendMode: 'darken' }}></img>
         </div>
         <div className='right'>
           <Descriptions
