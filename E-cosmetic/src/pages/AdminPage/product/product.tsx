@@ -1,9 +1,20 @@
+import {
+  UserOutlined,
+  HomeOutlined,
+  ShoppingOutlined,
+  AppstoreOutlined,
+  LogoutOutlined,
+  FundProjectionScreenOutlined
+} from '@ant-design/icons'
+
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Input, Select, Upload, Button,message,Table,Popconfirm} from 'antd'
+import { Modal, Form, Input, Select, Upload, Button, message, Table, Popconfirm, Layout, Menu, Breadcrumb } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { getAccessToken } from '~/Auth/auth'
 import axios from 'axios'
-
+import type { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload/interface'
+import SubMenu from 'antd/es/menu/SubMenu'
+import { Link, useNavigate } from 'react-router-dom'
 interface Product {
   id: number
   product_name: string
@@ -15,9 +26,10 @@ interface Product {
   category: number
 }
 interface Category {
-  id: number;
-  category_name: string;
+  id: number
+  category_name: string
 }
+const { Header, Content, Sider } = Layout
 
 const ProductTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -25,37 +37,43 @@ const ProductTable: React.FC = () => {
   const [editProductModalVisible, setEditProductModalVisible] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [form] = Form.useForm()
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  const { Option } = Select;
-  const accessToken = getAccessToken();
+  const [categories, setCategories] = useState<Category[]>([])
+  const [file, setFile] = useState<any>()
+  const [collapsed, setCollapsed] = useState(false)
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed)
+  }
+  const { Option } = Select
+  const accessToken = getAccessToken()
+  const navigate = useNavigate()
 
   useEffect(() => {
-
     axios
 
       .get('https://ecom-be-htgu.onrender.com/products')
-      .then(response => {
+      .then((response) => {
         setProducts(response.data)
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Lỗi khi gọi API:', error)
       })
   }, [])
+
   useEffect(() => {
-    axios.get('https://ecom-be-htgu.onrender.com/category',  {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-      )
-      .then(response => {
-        setCategories(response.data);
+    axios
+      .get('https://ecom-be-htgu.onrender.com/category', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       })
-      .catch(error => {
-        console.error('Error while calling API:', error);
-      });
-  }, []);
+      .then((response) => {
+        setCategories(response.data)
+      })
+      .catch((error) => {
+        console.error('Error while calling API:', error)
+      })
+  }, [])
+
   useEffect(() => {
     if (selectedProduct) {
       form.setFieldsValue({
@@ -63,23 +81,23 @@ const ProductTable: React.FC = () => {
         description: selectedProduct.description,
         price: selectedProduct.price,
         brand: selectedProduct.brand
-      });
+      })
     }
-  }, [selectedProduct, form]);
+  }, [selectedProduct, form])
   const handleDelete = (productId: number) => {
     // Gọi API để xóa sản phẩm
     axios
       .delete(`https://ecom-be-htgu.onrender.com/products/${productId}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+          Authorization: `Bearer ${accessToken}`
+        }
       })
-      .then(response => {
+      .then((response) => {
         message.success('Xóa sản phẩm thành công')
         // Cập nhật danh sách sản phẩm sau khi xóa
-        setProducts(products.filter(product => product.id !== productId))
+        setProducts(products.filter((product) => product.id !== productId))
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Lỗi khi xóa sản phẩm:', error)
         message.error('Lỗi khi xóa sản phẩm')
       })
@@ -95,46 +113,56 @@ const ProductTable: React.FC = () => {
   }
 
   const handleAddProductModalOk = () => {
-    form.validateFields()
-      .then(values => {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log(values, 'values')
+        // const formData = new FormData()
+        // formData.append('image', values.file)
+        const data = { ...values, image: file, containFile: file ? true : false }
+        const formData = new FormData()
+        for (const [key, value] of Object.entries<string | Blob>(data)) {
+          formData.append(key, value)
+        }
         // Gọi API để thêm sản phẩm
         axios
-          .post('https://ecom-be-htgu.onrender.com/products', values , {
+          .post('https://ecom-be-htgu.onrender.com/products', formData, {
             headers: {
-Authorization: `Bearer ${accessToken}`,
-            },
+              Authorization: `Bearer ${accessToken}`
+            }
           })
-          .then(response => {
+          .then((response) => {
             message.success('Thêm sản phẩm thành công')
             setProducts([...products, response.data])
             setAddProductModalVisible(false)
             form.resetFields()
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Lỗi khi thêm sản phẩm:', error)
             message.error('Lỗi khi thêm sản phẩm')
           })
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Lỗi khi xác thực form:', error)
       })
   }
 
   const handleEditProductModalOk = () => {
-    form.validateFields()
-      .then(values => {
+    form
+      .validateFields()
+      .then((values) => {
         // Gọi API để cập nhật sản phẩm
         axios
           .patch(`https://ecom-be-htgu.onrender.com/products/${selectedProduct?.id}`, values, {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-      })
-          .then(response => {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          .then((response) => {
             message.success('Cập nhật sản phẩm thành công')
-            const updatedProducts = products.map(product => {
+            const updatedProducts = products.map((product) => {
               if (product.id === selectedProduct?.id) {
-return {
+                return {
                   ...product,
                   ...values
                 }
@@ -145,12 +173,12 @@ return {
             setEditProductModalVisible(false)
             form.resetFields()
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Lỗi khi cập nhật sản phẩm:', error)
             message.error('Lỗi khi cập nhật sản phẩm')
           })
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Lỗi khi xác thực form:', error)
       })
   }
@@ -172,62 +200,68 @@ return {
       key: 'id'
     },
     {
-      title: <div className="centered-title">Product Name</div>,
+      title: <div className='centered-title'>Product Name</div>,
       dataIndex: 'product_name',
       key: 'product_name'
     },
     {
-      title: <div className="centered-title">Description</div>,
+      title: <div className='centered-title'>Description</div>,
       dataIndex: 'description',
       key: 'description'
     },
     {
-      title: <div className="centered-title">Price</div>,
+      title: <div className='centered-title'>Price</div>,
       dataIndex: 'price',
       key: 'price'
     },
     {
-      title: <div className="centered-title">quantity_inventory</div>,
+      title: <div className='centered-title'>quantity_inventory</div>,
       dataIndex: 'quantity_inventory',
       key: 'quantity_inventory'
     },
     {
-      title: <div className="centered-title">Brand</div>,
+      title: <div className='centered-title'>Brand</div>,
       dataIndex: 'brand',
       key: 'brand'
     },
     {
-      title: <div className="centered-title">sku</div>,
+      title: <div className='centered-title'>sku</div>,
       dataIndex: 'sku',
       key: 'sku'
     },
     {
-      title: <div className="centered-title">Image</div>,
+      title: <div className='centered-title'>Image</div>,
       dataIndex: 'image',
       key: 'image',
-render: (image:string) => <img src={image} alt="Product" style={{width:"100px",height:"100px"}} />
+      render: (image: string) => (
+        <img
+          src={`https://ecom-be-htgu.onrender.com/${image}`}
+          alt='Product'
+          style={{ width: '100px', height: '100px' }}
+        />
+      )
     },
     {
-      title: <div className="centered-title">Category</div>,
+      title: <div className='centered-title'>Category</div>,
       dataIndex: 'category',
       key: 'category_name',
-      render: (category: any) => category ? category.category_name : ''
+      render: (category: any) => (category ? category.category_name : '')
     },
     {
-      title: <div className="centered-title">Actions</div>,
+      title: <div className='centered-title'>Actions</div>,
       key: 'actions',
       render: (text: string, record: Product) => (
-        <div className="centered-actions">
-          <Button type="link" onClick={() => handleEditProduct(record)}>
+        <div className='centered-actions'>
+          <Button type='link' onClick={() => handleEditProduct(record)}>
             Edit
           </Button>
           <Popconfirm
-            title="Are you sure you want to delete this product?"
+            title='Are you sure you want to delete this product?'
             onConfirm={() => handleDelete(record.id)}
-            okText="Yes"
-            cancelText="No"
+            okText='Yes'
+            cancelText='No'
           >
-            <Button type="link" danger>
+            <Button type='link' danger>
               Delete
             </Button>
           </Popconfirm>
@@ -236,161 +270,175 @@ render: (image:string) => <img src={image} alt="Product" style={{width:"100px",h
     }
   ]
 
+  console.log(file)
+  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
+    setFile(info.file.originFileObj)
+  }
   return (
-    <div className="product-table">
-      <div className="table-header">
-        <h2>Product List</h2>
-        <Button type="primary" onClick={handleAddProduct}>
-          Add Product
-        </Button>
-      </div>
-      <Table
-        dataSource={products}
-        columns={columns}
-        rowKey="id"
-        pagination={false}
-      />
-   
-<Modal
-  title="Add Product"
-  open={addProductModalVisible}
-  onOk={handleAddProductModalOk}
-  onCancel={handleAddProductModalCancel}
->
-  <Form form={form} layout="vertical">
-    <Form.Item
-      name="product_name"
-      label="Product name"
-      rules={[{ required: true, message: 'Please enter product name' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="description"
-      label="Description"
-      rules={[{ required: true, message: 'Please enter description' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="price"
-      label="Price"
-      rules={[{ required: true, message: 'Please enter price' }]}
-    >
-      <Input type="number" />
-    </Form.Item>
-    <Form.Item
-      name="quantity_inventory"
-      label="Quantity Inventory"
-      rules={[{ required: true, message: 'Please enter quantity inventory' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="brand"
-      label="Brand"
-      rules={[{ required: true, message: 'Please enter brand' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="sku"
-      label="SKU"
-      rules={[{ required: true, message: 'Please enter SKU' }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-  name="category.id"
-  label="Category"
-  rules={[{ required: true, message: 'Please select category' }]}
->
-<Select>
-        {categories.map(category => (
-          <Option key={category.id} value={category.id}>
-            {category.category_name}
-          </Option>
-        ))}
-      </Select>
-</Form.Item>
-    <Form.Item
-      name="image"
-      label="image"
-      rules={[{ required: true, message: 'Please upload image' }]}
-    >
-      <Upload>
-<Button icon={<UploadOutlined />}>Upload Image</Button>
-      </Upload>
-    </Form.Item>
-  </Form>
-</Modal>
+    <Layout style={{ minHeight: '100vh', backgroundColor: '#C8E4B2' }}>
+      <Layout>
+        <Sider
+          width={200}
+          className='site-layout-background'
+          collapsedWidth={80}
+          style={{ backgroundColor: '#C8E4B2' }}
+          collapsed={collapsed}
+          onCollapse={toggleCollapsed}
+        >
+          <Menu mode='inline' selectedKeys={[location.pathname]} style={{ height: '100%', borderRight: 0 }}>
+            <SubMenu
+              key='/admin'
+              title={
+                <span>
+                  <HomeOutlined /> Admin
+                </span>
+              }
+            >
+              <Menu.Item key='/dashboard'>
+                <Link to='/dashboard'>
+                  <HomeOutlined /> Dashboard
+                </Link>
+              </Menu.Item>
+              <Menu.Item key='/product'>
+                <Link to='/product'>
+                  <ShoppingOutlined /> Products
+                </Link>
+              </Menu.Item>
+              <Menu.Item key='/category'>
+                <Link to='/category'>
+                  <AppstoreOutlined /> Categories
+                </Link>
+              </Menu.Item>
+            </SubMenu>
+            <Menu.Item key='/user'>
+              <Link to='/user'>
+                <UserOutlined /> Users
+              </Link>
+            </Menu.Item>
+            <Menu.Item key='/homepage'>
+              <Link to='/'>
+                <FundProjectionScreenOutlined /> Preview Shop
+              </Link>
+            </Menu.Item>
+            <Menu.Item
+              key='/logout'
+              onClick={() => {
+                localStorage.clear()
+                navigate('/sign-in')
+              }}
+            >
+              <LogoutOutlined />
+              Log out
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout style={{ padding: '0 24px 24px' }}>
+          <Breadcrumb style={{ margin: '16px 0', marginTop: '30px' }}>
+            {location.pathname.split('/').map((path, index) => (
+              <Breadcrumb.Item key={index}>
+                <Link to={path}>{path}</Link>
+              </Breadcrumb.Item>
+            ))}
+          </Breadcrumb>
+          <Content className='site-layout-background' style={{ margin: 0, minHeight: 280 }}>
+            <div className='product-table'>
+              <div className='table-header'>
+                <h2>Product List</h2>
+                <Button type='primary' onClick={handleAddProduct} style={{ marginBottom: '12px' }}>
+                  Add Product
+                </Button>
+              </div>
+              <Table dataSource={products} columns={columns} rowKey='id' pagination={false} />
 
-      <Modal
-        title="Edit Product"
-        open={editProductModalVisible}
-        onOk={handleEditProductModalOk}
-        onCancel={handleEditProductModalCancel}
-      >
-        <Form form={form} layout="vertical">
-          <Form.Item
-            name="name"
-            label="Product Name"
-            initialValue={selectedProduct?.product_name}>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="Description"
-            initialValue={selectedProduct?.description}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="price"
-            label="Price"
-            initialValue={selectedProduct?.price}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="brand"
-            label="Brand"
-            initialValue={selectedProduct?.brand}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="image"
-            label="image"
-            rules={[{ required: true, message: 'Please upload image' }]}
-          >
-            <Upload>
-              <Button icon={<UploadOutlined />}>Upload Image</Button>
-            </Upload>
-          </Form.Item>
-          <Form.Item
-            name="quantity_inventory"
-            label="quantity_inventory"
-            initialValue={selectedProduct?.quantity_inventory}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="sku"
-            label="SKU"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="category"
-            label="category"
-            initialValue={selectedProduct?.category}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+              <Modal
+                title='Add Product'
+                open={addProductModalVisible}
+                onOk={handleAddProductModalOk}
+                onCancel={handleAddProductModalCancel}
+              >
+                <Form form={form} layout='vertical'>
+                  <Form.Item
+                    name='product_name'
+                    label='Product name'
+                    rules={[{ required: true, message: 'Please enter product name' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name='description'
+                    label='Description'
+                    rules={[{ required: true, message: 'Please enter description' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name='price' label='Price' rules={[{ required: true, message: 'Please enter price' }]}>
+                    <Input type='number' />
+                  </Form.Item>
+                  <Form.Item
+                    name='quantity_inventory'
+                    label='Quantity Inventory'
+                    rules={[{ required: true, message: 'Please enter quantity inventory' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name='brand' label='Brand' rules={[{ required: true, message: 'Please enter brand' }]}>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name='sku' label='SKU' rules={[{ required: true, message: 'Please enter SKU' }]}>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name='category.id'
+                    label='Category'
+                    rules={[{ required: true, message: 'Please select category' }]}
+                  >
+                    <Select>
+                      {categories.map((category) => (
+                        <Option key={category.id} value={category.id}>
+                          {category.category_name}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name='image' label='image' rules={[{ required: true, message: 'Please upload image' }]}>
+                    <Upload
+                      beforeUpload={() => {
+                        return true
+                      }}
+                      onChange={handleChange}
+                    >
+                      <Button icon={<UploadOutlined />}>Upload Image</Button>
+                    </Upload>
+                  </Form.Item>
+                </Form>
+              </Modal>
+
+              <Modal
+                title='Edit Product'
+                open={editProductModalVisible}
+                onOk={handleEditProductModalOk}
+                onCancel={handleEditProductModalCancel}
+              >
+                <Form form={form} layout='vertical'>
+                  <Form.Item name='name' label='Product Name' initialValue={selectedProduct?.product_name}>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name='description' label='Description' initialValue={selectedProduct?.description}>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name='price' label='Price' initialValue={selectedProduct?.price}>
+                    <Input type='number' />
+                  </Form.Item>
+                  <Form.Item name='brand' label='Brand' initialValue={selectedProduct?.brand}>
+                    <Input />
+                  </Form.Item>
+                </Form>
+              </Modal>
+            </div>
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   )
 }
 

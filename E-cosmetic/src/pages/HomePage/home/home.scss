@@ -1,63 +1,60 @@
-body{
+body {
   background-color: white;
 }
-select{
-    padding: 5px 10px;
-    border-radius: 3px;
-    
+select {
+  padding: 5px 10px;
+  border-radius: 3px;
 }
-  #searchInput{
-      padding:5px;
-      border-radius: 3px;  
-  }
-  #search-btn{
-      padding: 5px 10px;
-      border-radius: 3px;  
-  }
+#searchInput {
+  padding: 5px;
+  border-radius: 3px;
+}
+#search-btn {
+  padding: 5px 10px;
+  border-radius: 3px;
+}
 
 .search-label {
-    position: relative;
-    display: flex;
-    gap: 5px;
-    font-weight: bold;
+  position: relative;
+  display: flex;
+  gap: 5px;
+  font-weight: bold;
+}
 
-  }
-  
-  .search-price::before {
-    content: "By Price: ";
-    position: absolute;
-    top: -25px;
-    left: 0;
-    color: #9bce77;
-    font-size: 14px;
-  }
-  .search-amountsold::before {
-    content: "Amount Sold:";
-    position: absolute;
-    top: -25px;
-    left: 0;
-    color: #9bce77;
-    font-size: 14px;
-  }
-  
-  .search-categories::before {
-    content: "Categories: ";
-    position: absolute;
-    top: -25px;
-    left: 0;
-    color: #9bce77;
-    font-size: 14px;
-  }
-   
-  .search-name::before {
-    content: "Search by Product: ";
-    position: absolute;
-    top: -25px;
-    left: 0;
-    color: #9bce77;
-    font-size: 14px;
-  }
-  .select{
-    width: 100%;
-  }
-  
+.search-price::before {
+  content: 'By Price: ';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  color: #ffb8c9;
+  font-size: 14px;
+}
+.search-amountsold::before {
+  content: 'Amount Sold:';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  color: #ffb8c9;
+  font-size: 14px;
+}
+
+.search-categories::before {
+  content: 'Categories: ';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  color: #ffb8c9;
+  font-size: 14px;
+}
+
+.search-name::before {
+  content: 'Search by Product: ';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  color: #ffb8c9;
+  font-size: 14px;
+}
+.select {
+  width: 100%;
+}

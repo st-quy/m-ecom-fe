@@ -17,22 +17,17 @@ import Logout from './pages/HomePage/Logout/logout'
 import CartTable from './pages/HomePage/cart/cart'
 import CheckoutForm from './pages/HomePage/payment/payment'
 
-
 function App() {
-
   return (
     <Router>
       <Routes>
-      <Route path='/checkout/:id/*' element={<CheckoutForm />} />
-      <Route path='/Admin' element={<Admin />} />
-
+        <Route path='/checkout/:id/*' element={<CheckoutForm />} />
         <Route path='/log-out' element={<Logout />} />
         <Route path='/sign-in' element={<Login />} />
         <Route path='/*' element={<Admin />} />
         <Route path='/service' element={<Service />} />
-
-
-        <Route path='/cart/:id/*' element={<Cart/>}></Route>
+        <Route path='/dashboard' element={<Admin />} />
+        <Route path='/cart/:id/*' element={<Cart />}></Route>
         <Route path='/sign-up' element={<Register />} />
         <Route path='/homepage' element={<PageUser />} />
         <Route path='/products/:product_name/:id' element={<Pagedetail />} />
@@ -52,20 +47,18 @@ function Cart() {
       <Footer />
     </>
   )
-}function Admin() {
+}
+function Admin() {
   return (
     <Routes>
-      <Route path='*' element={<Dashboard />} />
-
+      <Route path='' element={<Dashboard />} />
     </Routes>
-
   )
 }
 function PageUser() {
   return (
     <>
       <Header />
-
       <Routes>
         <Route path='/' element={<Home />} />
       </Routes>

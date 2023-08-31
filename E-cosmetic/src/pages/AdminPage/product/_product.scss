@@ -1,36 +1,36 @@
 .product-table {
-    margin-top: 20px;
-    width: 100%;
-  }
-  
-  .product-table table {
-    border: 1px solid #d0c9c9;
-  }
-  
-  .product-table th {
-    background-color: #b7adad;
-  }
-  
-  .product-table td {
-    padding: 8px;
-  }
-  
-  .product-table .ant-table-tbody > tr > td {
-    border-bottom: none;
-  }
-  
-  .product-table .ant-table-tbody > tr:last-child > td {
-    border-bottom: 1px solid #978f8f;
-  }
+  margin-top: 20px;
+  width: 100%;
+}
 
-  .centered-title{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  
-  // Định nghĩa các biến màu sắc
+.product-table table {
+  border: 1px solid #d0c9c9;
+}
+
+.product-table th {
+  background-color: #b7adad;
+}
+
+.product-table td {
+  padding: 8px;
+}
+
+.product-table .ant-table-tbody > tr > td {
+  border-bottom: none;
+}
+
+.product-table .ant-table-tbody > tr:last-child > td {
+  border-bottom: 1px solid #978f8f;
+}
+
+.centered-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+// Định nghĩa các biến màu sắc
 $primary-color: #007bff;
 $danger-color: #dc3545;
 
@@ -39,7 +39,8 @@ $danger-color: #dc3545;
   width: 100%;
   border-collapse: collapse;
 
-  th, td {
+  th,
+  td {
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
@@ -82,7 +83,8 @@ $danger-color: #dc3545;
 // Tạo responsive cho bảng
 @media screen and (max-width: 767px) {
   .table {
-    th, td {
+    th,
+    td {
       display: block;
       width: 100%;
     }
@@ -108,4 +110,15 @@ $danger-color: #dc3545;
     }
   }
 }
-  
+
+:where(.css-dev-only-do-not-override-190m0jy).ant-upload-wrapper
+  .ant-upload-list
+  .ant-upload-list-item-error
+  .ant-upload-list-item-name,
+:where(.css-dev-only-do-not-override-190m0jy).ant-upload-wrapper
+  .ant-upload-list
+  .ant-upload-list-item-error
+  .ant-upload-icon
+  .anticon {
+  color: black !important;
+}

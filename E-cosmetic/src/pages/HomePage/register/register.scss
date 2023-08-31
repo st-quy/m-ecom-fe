@@ -1,3 +1,16 @@
-body{
-    background-color: #8CAE71;
+.register__container {
+  height: 100vh;
+  background-color: #fff6f7;
+  width: 100%;
+  padding: 100px;
+  .form__container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .img__form {
+    @media only screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
 }

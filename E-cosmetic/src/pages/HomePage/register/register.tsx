@@ -1,48 +1,43 @@
-import { Space, Card, Input, Form, Button } from 'antd'
+import { Space, Card, Input, Form, Button, Row, Col, message } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Register = () => {
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
-  const onFinish = async (values: { phoneNumber: string, password: string }) => {
+  const onFinish = async (values: { phoneNumber: string; password: string }) => {
     try {
-      const { phoneNumber, password } = values;
-      const response = await axios.post('https://ecom-be-htgu.onrender.com/auth/register', {
-        phoneNumber,
-        password,
-      });
-
-      const { data } = response;
-      console.log('Login successful:', data);
-      alert('Sign up successfully, Please Sign in again!'); 
-
-      navigate("/sign-in");
-
+      const { phoneNumber, password } = values
+      await axios
+        .post('https://ecom-be-htgu.onrender.com/auth/register', {
+          phoneNumber,
+          password
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            message.success('Sign up successfully')
+            navigate('/sign-in')
+          }
+        })
     } catch (error) {
-      console.error('Login failed:', error);
-      alert('Login failed. Account or password already exists!'); 
+      message.error('Account or password already exists!')
     }
-  };
+  }
 
   return (
-    <div style={{ backgroundColor: '#8CAE71', minHeight: '100vh' }}>
-      <Space size={20} style={{ margin: '6.5% 16%' }}>
-        <div>
-          <Card bordered={false} style={{ background: 'rgba(126, 170, 146, 0.30)' }}>
-            <img
-              src='../../../../src/assets/meliss3262-Edit-1280x1920 1 (1).png'
-              style={{ width: '427px', height: '463px' }}
-              alt=''
-            />
-          </Card>
-        </div>
-        <div>
+    <Row className='register__container'>
+      <Col className='form__container'>
+        <Space size={20}>
+          <img
+            src='https://atinproduction.com/wp-content/uploads/2021/05/meliss3262-Edit-1280x1920.jpg'
+            style={{ width: '527px', height: '663px', objectFit: 'cover', borderRadius: '10px' }}
+            alt=''
+          />
           <Card
             title='Sign up'
             bordered={false}
-            style={{ width: 500 }}
+            style={{ width: 500, height: 663 }}
             headStyle={{ textAlign: 'center', fontSize: '2em' }}
           >
             <Space direction='vertical' style={{ width: '100%' }} size={20}>
@@ -80,7 +75,7 @@ const Register = () => {
                     htmlType='submit'
                     style={{
                       width: '100%',
-                      background: '#7EAA92',
+                      background: '#ffb8c9',
                       borderRadius: '16px',
                       height: '44px',
                       color: '#FFF',
@@ -92,28 +87,26 @@ const Register = () => {
                     Sign up
                   </Button>
                 </Form.Item>
+                <Button
+                  style={{
+                    width: '100%',
+                    height: '44px',
+                    color: '#000',
+                    fontSize: '18px',
+                    fontStyle: 'normal',
+                    fontWeight: '400',
+                    padding: '0px'
+                  }}
+                  onClick={() => navigate('/sign-in')}
+                >
+                  I have an account? <Link to='/sign-in'> Sign in</Link>
+                </Button>
               </Form>
             </Space>
           </Card>
-        </div>
-      </Space>
-      <Button
-        style={{
-          width: '100%',
-          height: '44px',
-          color: '#000',
-          fontSize: '18px',
-          fontStyle: 'normal',
-          fontWeight: '400',
-          padding: '0px'
-        }}
-      >
-        I have an account?{' '}
-        <Link to='/sign-in'>
-          <u>Sign in</u>
-        </Link>
-      </Button>
-    </div>
+        </Space>
+      </Col>
+    </Row>
   )
 }
 

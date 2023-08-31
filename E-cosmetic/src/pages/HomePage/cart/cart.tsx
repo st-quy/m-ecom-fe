@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { Table, Image, Space, Button,Row,Col} from 'antd'
+import { Table, Image, Space, Button, Row, Col } from 'antd'
 import axios from 'axios'
 import { getAccessToken } from '~/Auth/auth'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import Header from '../header/header'
+import Footer from '../footer/footer'
 
 interface Cart {
   id: number
@@ -133,9 +137,7 @@ const CartTable: React.FC = () => {
     {
       title: 'Total Price',
       key: 'total_price',
-      render: (price: number,record: CartProduct) => (
-        <span>${record.product.price * record.quantity}</span>
-      )
+      render: (price: number, record: CartProduct) => <span>${record.product.price * record.quantity}</span>
     },
     {
       title: 'Remove',
@@ -146,7 +148,7 @@ const CartTable: React.FC = () => {
         </Button>
       )
     }
-  ];
+  ]
   const dataSource =
     cart?.cartsProduct.map((item) => ({
       key: item.product.id,
@@ -160,33 +162,37 @@ const CartTable: React.FC = () => {
   const rowClassName = () => 'custom-row'
 
   return (
-    <div className='Cart-container'>
-      <>
-        <Table columns={columns} dataSource={dataSource} rowClassName={rowClassName}  />
-        <Row style={{ marginLeft:"10%",marginTop:"30px" }} gutter={[20,40]}> 
-      <Col xs={24} sm={12} md={12} lg={14} xl={16}>
-        <Space direction="vertical" size="large">
-          <Link to="/homepage">
-          <Button size="large">Keep shopping</Button>
-          </Link>
-        </Space>
-      </Col>
-      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-  <Space direction="vertical" size="large">
-  {cart && (
+    <>
+      <Header />
+      <div className='Cart-container'>
+        <Table columns={columns} dataSource={dataSource} rowClassName={rowClassName} />
+        <Row style={{ marginLeft: '10%', marginTop: '30px' }} gutter={[20, 40]}>
+          <Col xs={24} sm={12} md={12} lg={14} xl={16}>
+            <Space direction='vertical' size='large'>
+              <Link to='/homepage'>
+                <Button size='large'>Keep shopping</Button>
+              </Link>
+            </Space>
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+            <Space direction='vertical' size='large'>
+              {cart && (
                 <>
                   <h4>Total Quantity product: {cart.total_quantity}</h4>
                   <h4>Total Payment: ${cart.total_price}</h4>
                 </>
               )}
               <Link to={`/checkout/${id}`}>
-    <Button size="large" style={{ marginLeft: "50px" }}>Payment</Button>
-    </Link>
-  </Space>
-</Col>
-    </Row>
-      </>
-    </div>
+                <Button size='large' style={{ marginLeft: '50px' }}>
+                  Payment
+                </Button>
+              </Link>
+            </Space>
+          </Col>
+        </Row>
+      </div>
+      <Footer />
+    </>
   )
 }
 

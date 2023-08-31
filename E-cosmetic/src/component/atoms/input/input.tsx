@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
-import { Input } from 'antd';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from 'react'
+import { Input } from 'antd'
 
-const { Search } = Input;
+const { Search } = Input
 
 interface InputComponentProps {
-  onSearch?: (value: string) => void;
+  onSearch?: (value: string) => void
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({ onSearch }) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState('')
 
   const handleSearch = (value: string) => {
-    setSearchValue(value);
+    setSearchValue(value)
     if (onSearch) {
-      onSearch(value);
+      onSearch(value)
     }
-  };
+  }
 
   return (
     <Search
-      placeholder="searching by name......"
+      placeholder='searching by name......'
       allowClear
-      enterButton={<span className="custom-enter-button">Search</span>}
-      size="large"
+      enterButton={<span className='custom-enter-button'>Search</span>}
+      size='large'
       onSearch={handleSearch}
-      className="custom-search"
+      className='custom-search'
     />
-  );
-};
+  )
+}
 
-export default InputComponent;
+export default InputComponent
