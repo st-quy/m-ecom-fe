@@ -1,13 +1,9 @@
 import React from 'react'
 import { Button, Col, Row } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
-import { DecodedToken } from '~/helpers/api'
 
 const Footer: React.FC = () => {
   const navigate = useNavigate()
-  const token = localStorage.getItem('accessToken')
-  const decodedToken = jwt_decode<DecodedToken>(token as string)
 
   return (
     <footer>
@@ -30,7 +26,7 @@ const Footer: React.FC = () => {
           <p>Instagram</p>
         </Col>
       </Row>
-      {decodedToken.role === 'admin' && (
+      {localStorage.getItem('role') === 'admin' && (
         <Row>
           <Col
             style={{

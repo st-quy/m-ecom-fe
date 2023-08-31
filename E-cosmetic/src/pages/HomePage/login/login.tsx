@@ -34,6 +34,7 @@ const Login = () => {
         password
       }).then((res) => {
         const decodedToken = jwt_decode(res.data.accessToken) as DecodedToken
+        localStorage.setItem('role', decodedToken.role)
         if (decodedToken && (decodedToken.role === 'admin' || decodedToken.role === 'marketing')) {
           message.success('Login successful')
           navigate('/dashboard')
